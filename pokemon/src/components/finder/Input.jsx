@@ -1,10 +1,10 @@
 import React from 'react';
 
-const Input = () => {
+const Input = ({...props}) => {
     return (
         <div className="input-wrapper">
             <img className="search-btn" src="/icons/search.svg"/>
-            <input className="input" type="text" placeholder="E.g. Pikachu"/>
+            <input {...props} className="input" type="text" placeholder="E.g. Pikachu"/>
             <button className="btn">GO</button>
         </div>
     );

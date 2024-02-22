@@ -1,7 +1,7 @@
 import React from 'react';
 import Input from "./Input";
 
-const Finder = () => {
+const Finder = ({...props}) => {
     return (
         <div className="finder">
             <div className="finder-wrapper">
@@ -9,7 +9,7 @@ const Finder = () => {
                 <img className="pokeball" alt="" src="/icons/Pokeball.svg"/>
             </div>
             <div className="finder-input">
-                <Input />
+                <Input {...props} />
             </div>
         </div>
     );

@@ -1,34 +1,22 @@
-import React, {useEffect, useState} from 'react';
+import React from 'react';
+import PokemonCard from "./pokemonCard/PokemonCard";
+import NotFound from "../notFound/NotFound";
 
-const PokemonsList = () => {
-    async function getPokemons() {
-        const response = await fetch("https://pokeapi.co/api/v2/pokemon?limit=10&offset=0");
-        const pokemonListJson = await response.json();
-        return pokemonListJson?.results;
-    }
+const PokemonsList = (props) => {
+    let pokemons = props.props;
 
-    const [pokemonsList, setPokemonsList] = useState([]);
-
-    useEffect(() => {
-            getPokemons().then(pokemons => setPokemonsList(pokemons)).catch(error => console.error(error));
-        }, []);
-
-    console.log(pokemonsList);
-
-    // TODO: 1. get all pokemons from https://pokeapi.co/api/v2/pokemon?limit=10&offset=0.
-    // TODO: 2. from results of todo1 get the name and url
-    // TODO: 3. from url get forms, from form get name and url
-    // TODO: 4. from url get types and their names
-
-    return (
-        <div className="pokemon-list">
-            <div className="pokemon-list-wrapper">
-                <div className="pokemon-card">
-                    {pokemonsList[0]?.name}
+    if(pokemons.length != 0)
+        return (
+            <div className="pokemon-list">
+                <div className="pokemon-list-wrapper">
+                    {pokemons.map(pokemon => (<PokemonCard props={pokemon} id={pokemon.id}/>))}
                 </div>
             </div>
-        </div>
-    );
+        );
+    else
+        return (
+            <NotFound />
+        )
 };
 
 export default PokemonsList;

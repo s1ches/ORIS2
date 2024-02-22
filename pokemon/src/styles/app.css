@@ -90,3 +90,78 @@
 .btn:active {
     background: rgba(20, 20, 20, 0.8);
 }
+
+.pokemon-list-wrapper {
+    width: 100%;
+    display: grid;
+    justify-content: space-between;
+    padding: 0px 5%;
+    grid-template-columns: repeat(auto-fit, minmax(135px, 1fr));
+}
+
+.card-header {
+    display: flex;
+    justify-content: space-between;
+}
+
+.pokemon-card {
+    box-shadow: rgba(0,0,0,0.2) 5px 5px 5px 5px;
+    margin: 20px 5px;
+    border-radius: 20px;
+    padding: 0px 8px;
+    align-items: center;
+}
+
+.card-footer {
+    display: flex;
+    justify-content: center;
+    padding-bottom: 10px;
+}
+
+.pokemon-id {
+    color: rgba(20, 20, 20, 0.8);
+    font-family: "Poppins", sans-serif;
+    font-weight: 450;
+    font-size: 10px;
+    margin-top: 7px;
+}
+
+.pokemon-name {
+    color: rgba(7, 42, 200, 1);
+    font-family: "Poppins", sans-serif;
+    padding: 3px 4px;
+    font-size: 12px;
+    margin-top: 0px;
+}
+
+.pokemon-type {
+    border-radius: 5px;
+    font-family: "Poppins", sans-serif;
+    font-size: 12px;
+    border: none;
+    margin: 0px 2px;
+    padding: 2px 5px;
+    cursor: pointer;
+    color: white;
+}
+
+.card-content{
+    display: flex;
+    justify-content: center;
+}
+
+.not-found-wrapper {
+    margin-top: 15px;
+    padding: 15px;
+    font-family: "Poppins", sans-serif;
+    justify-content: center;
+    width: 100%;
+}
+
+.not-found-pikachu{
+    margin-top: 30px;
+    height: 200px;
+    display: block;
+    margin-left: auto;
+    margin-right: auto
+}
