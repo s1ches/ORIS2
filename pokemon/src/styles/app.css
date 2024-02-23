@@ -96,12 +96,13 @@
     display: grid;
     justify-content: space-between;
     padding: 0px 5%;
-    grid-template-columns: repeat(auto-fit, minmax(135px, 1fr));
+    grid-template-columns: repeat(auto-fill, 135px);
 }
 
 .card-header {
     display: flex;
     justify-content: space-between;
+    padding-top: 2px;
 }
 
 .pokemon-card {

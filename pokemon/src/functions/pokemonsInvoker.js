@@ -20,7 +20,8 @@ async function getPokemons(limit, offset) {
         pokemon.id = pokemonJson?.id;
         pokemon.name = pokemonJson?.name;
         pokemon.typeArr = pokemonJson?.types.map(t => {return {typeName: t?.type?.name, color: typeToColor(t?.type?.name)}});
-        pokemon.imgUrl = `https://projectpokemon.org/images/sprites-models/pgo-sprites/pm${pokemon.id}.icon.png`
+        pokemon.imgUrl =
+            `https://raw.githubusercontent.com/pokeapi/sprites/master/sprites/pokemon/other/home/${pokemon.id}.png`;
         pokemons[i] = pokemon;
     }
 
@@ -41,7 +42,9 @@ async function invokeEachPokemon(limit){
         pokemon.id = pokemonJson?.id;
         pokemon.name = pokemonJson?.name;
         pokemon.typeArr = pokemonJson?.types.map(t => {return {typeName: t?.type?.name, color: typeToColor(t?.type?.name)}});
-        pokemon.imgUrl = `https://projectpokemon.org/images/sprites-models/pgo-sprites/pm${pokemon.id}.icon.png`
+        pokemon.imgUrl =
+            `https://raw.githubusercontent.com/pokeapi/sprites/master/sprites/pokemon/other/home/${pokemon.id}.png`;
+
         console.log(i);
         result[result.length] = pokemon;
     }
