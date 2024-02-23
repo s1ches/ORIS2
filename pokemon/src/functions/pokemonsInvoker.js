@@ -42,7 +42,7 @@ async function invokeEachPokemon(limit){
         pokemon.name = pokemonJson?.name;
         pokemon.typeArr = pokemonJson?.types.map(t => {return {typeName: t?.type?.name, color: typeToColor(t?.type?.name)}});
         pokemon.imgUrl = `https://projectpokemon.org/images/sprites-models/pgo-sprites/pm${pokemon.id}.icon.png`
-
+        console.log(i);
         result[result.length] = pokemon;
     }
 
@@ -50,7 +50,7 @@ async function invokeEachPokemon(limit){
 }
 
 async function invokePokemons(){
-    return await invokeEachPokemon(200);
+    return await invokeEachPokemon(100);
 }
 
 export default invokePokemons;
