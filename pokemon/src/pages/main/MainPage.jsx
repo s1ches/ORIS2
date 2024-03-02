@@ -50,7 +50,7 @@ const MainPage = () => {
                     setPokemons([...pokemons, ...result]);
                 }
             } else {
-                const neededNamesLinks = namesLinks.filter(x => x?.name.toLowerCase().startsWith(pokemonName.toLowerCase()));
+                const neededNamesLinks = namesLinks.filter(x => x?.name.toLowerCase().includes(pokemonName.toLowerCase()));
 
                 if (lastFetched !== "byName") {
                     setLastFetched("byName");
@@ -61,7 +61,7 @@ const MainPage = () => {
                         result.push(await invokePokemon(neededNamesLinks[i]?.name));
                     }
 
-                    let fetchedNeededPokes = pokemons.filter(p => p?.name.toLowerCase().startsWith(pokemonName.toString().toLowerCase()) && !result.map(r => r.id).includes(p?.id));
+                    let fetchedNeededPokes = pokemons.filter(p => p?.name.toLowerCase().includes(pokemonName.toString().toLowerCase()) && !result.map(r => r.id).includes(p?.id));
                     setPokemons([...fetchedNeededPokes, ...result]);
                 } else {
                     for (let i = start; i <= stop && i < neededNamesLinks.length; ++i) {
@@ -91,7 +91,7 @@ const MainPage = () => {
         let newPokemons = []
 
         for (let i = 0; i < pokemons.length; ++i) {
-            if (pokemons[i].name.startsWith(pokemonName.toLowerCase()))
+            if (pokemons[i].name.includes(pokemonName.toLowerCase()))
                 newPokemons[newPokemons.length] = pokemons[i];
         }
 
