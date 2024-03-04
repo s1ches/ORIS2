@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
+using PokemonAPI.Extensions;
 using PokemonAPI.Interfaces;
-using PokemonAPI.Models;
+using PokemonAPI.Models.DTOs;
 
 namespace PokemonAPI.Controllers;
 
@@ -10,36 +11,45 @@ public class PokemonController : ControllerBase
 {
     private readonly IPokeApiService _pokeApiService;
 
-    public PokemonController(IPokeApiService pokeApiService)
-    {
-        _pokeApiService = pokeApiService;
-    }
-
-    // pagination, search by str 
-
-    // FromQuery и другие виды аттрибутов сериализуют данные для передачи в контроллер, об этом париться не надо
-
+    public PokemonController(IPokeApiService pokeApiService) => _pokeApiService = pokeApiService;
+    
+    
     [HttpGet("{pokemonSearchParameter}")]
-    public async Task<DetailPokemon> GetPokemonByIdOrName(string pokemonSearchParameter,
+    public async Task<DetailsPokemonDto> GetPokemonByIdOrName(string pokemonSearchParameter,
         CancellationToken cancellationToken)
     {
         if (string.IsNullOrWhiteSpace(pokemonSearchParameter))
             throw new ArgumentException($"Empty value was entered in {nameof(GetPokemonByIdOrName)}" +
                                         $" method of {nameof(PokemonController)} endpoint");
 
-        return await _pokeApiService.GetPokemonAsync(pokemonSearchParameter, cancellationToken);
+        var pokemon = await _pokeApiService.GetPokemonAsync(pokemonSearchParameter, cancellationToken);
+        var detailsPokemonDto = new DetailsPokemonDto();
+        
+        pokemon.MapTo(detailsPokemonDto);
+
+        return detailsPokemonDto;
     }
 
     [HttpGet("{search}")]
-    public async Task<IEnumerable<Pokemon>> GetPokemonsByFilter(string search,
+    public async Task<IEnumerable<PokemonDto>> GetPokemonsByFilter(string search,
         [FromQuery] int pokemonsCount,
         [FromQuery] int pageNumber,
-        CancellationToken cancellationToken) =>
-        await _pokeApiService.GetPokemonsByFilterAsync(search, pokemonsCount, pageNumber, cancellationToken);
+        CancellationToken cancellationToken)
+    {
+
+        var pokemonsList =
+            await _pokeApiService.GetPokemonsByFilterAsync(search, pokemonsCount, pageNumber, cancellationToken);
+
+        return pokemonsList.ToPokemonsDtosList();
+    }
 
     [HttpGet]
-    public async Task<IEnumerable<Pokemon>> GetAllPokemons([FromQuery] int pokemonsCount,
+    public async Task<IEnumerable<PokemonDto>> GetAllPokemons([FromQuery] int pokemonsCount,
         [FromQuery] int pageNumber,
-        CancellationToken cancellationToken) =>
-        await _pokeApiService.GetAllPokemonsAsync(pokemonsCount, pageNumber, cancellationToken);
+        CancellationToken cancellationToken)
+    {
+        var pokemonsList = await _pokeApiService.GetAllPokemonsAsync(pokemonsCount, pageNumber, cancellationToken);
+
+        return pokemonsList.ToPokemonsDtosList();
+    }
 }

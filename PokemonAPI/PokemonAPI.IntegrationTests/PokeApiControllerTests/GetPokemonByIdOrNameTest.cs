@@ -1,9 +1,11 @@
 namespace PokemonAPI.IntegrationTests;
 
 [TestClass]
-public class UnitTest1
+public class GetPokemonByIdOrNameTest
 {
-    [TestMethod]
+    private readonly HttpClient _httpClient = new();
+    
+    [TestMethod("")]
     public void TestMethod1()
     {
         // Каждый метод контроллера 3 теста

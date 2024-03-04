@@ -1,21 +1,19 @@
-using System.Text.Json;
-using Microsoft.Extensions.Caching.Memory;
+using PokemonAPI.Exceptions;
 using PokemonAPI.Interfaces;
 using PokemonAPI.Models;
-using InvalidCastException = System.InvalidCastException;
 
 namespace PokemonAPI.Services;
 
 public class PokeApiService : IPokeApiService
 {
-    private readonly IMemoryCache _memoryCache;
+    private readonly IPokeApiUrlManager _urlManager;
 
-    private readonly IRequestMessageSender _messageSender;
+    private readonly IPokeApiCacheManager _cacheManager;
 
-    public PokeApiService(IMemoryCache memoryCache, IRequestMessageSender messageSender) =>
-        (_memoryCache, _messageSender) = (memoryCache, messageSender);
+    public PokeApiService(IPokeApiUrlManager urlManager, IPokeApiCacheManager cacheManager)
+        => (_cacheManager, _urlManager) = (cacheManager, urlManager);
 
-    public async Task<DetailPokemon> GetPokemonAsync(string pokemonSearchParameter,
+    public async Task<Pokemon> GetPokemonAsync(string pokemonSearchParameter,
         CancellationToken cancellationToken = default)
     {
         if (string.IsNullOrWhiteSpace(pokemonSearchParameter))
@@ -23,20 +21,13 @@ public class PokeApiService : IPokeApiService
                                         $" method of {nameof(PokeApiService)} service");
 
         pokemonSearchParameter = pokemonSearchParameter.Trim().ToLower();
-
-        if (_memoryCache.TryGetValue(pokemonSearchParameter, out var pokemon))
-            return pokemon as DetailPokemon ??
-                   throw new InvalidCastException("In memory cache was added not valid data");
-
-        var requestUrl = new Uri($"https://pokeapi.co/api/v2/pokemon/{pokemonSearchParameter}/");
-
-        var result = await SendGetRequestAndDeserializeAsyncTo<DetailPokemon>(requestUrl, cancellationToken);
-
-        _memoryCache.Set($"{result.Id}", result);
-
-        if(!_memoryCache.TryGetValue(result.Name, out  _))
-            _memoryCache.Set($"{result.Name}", result);
         
+        var requestUrl = _urlManager.GetPokemonUriByIdOrName(pokemonSearchParameter);
+        
+        var result =
+            await _cacheManager.GetFromCacheOrPokeApiAsync<Pokemon>(pokemonSearchParameter, requestUrl,
+                cancellationToken);
+
         return result;
     }
 
@@ -44,54 +35,37 @@ public class PokeApiService : IPokeApiService
         int pageNumber = 0, CancellationToken cancellationToken = default)
     {
         searchValue = searchValue.Trim().ToLower();
-        
-        if (_memoryCache.TryGetValue($"list: {searchValue}", out var pokemonsList))
-            return pokemonsList as List<Pokemon>
-                   ?? throw new InvalidCastException("In memory cache was added not valid data");
 
-        var allPokemons = await GetAllPokemonsInfoAsync(cancellationToken);
+        var allPokemonsInfo = await GetPokemonsInfoAsync(cancellationToken);
 
-        var rightPokemonsInfo = allPokemons.Pokemons.
-            Where(pokemon => pokemon.PokemonName.Contains(searchValue, StringComparison.OrdinalIgnoreCase)).
-            Skip(pokemonsCount * pageNumber).
-            Take(pokemonsCount);
+        var rightPokemonsInfo = allPokemonsInfo.Pokemons
+            .Where(pokemon => pokemon.PokemonName.Contains(searchValue, StringComparison.OrdinalIgnoreCase))
+            .Skip(pokemonsCount * pageNumber).Take(pokemonsCount);
 
-        var result = new List<Pokemon>();
-        foreach (var pokemonInfo in rightPokemonsInfo)
+        var resultTasks = rightPokemonsInfo.Select(async (pokemonInfo) =>
         {
-            if (!_memoryCache.TryGetValue(pokemonInfo.PokemonName.ToLower(), out Pokemon? pokemon))
-                pokemon = await SendGetRequestAndDeserializeAsyncTo<Pokemon>(pokemonInfo.PokemonUrl, cancellationToken);
-            
-            result.Add(pokemon!);
-        }
+            var pokemonRequestUrl = _urlManager.GetPokemonUriByIdOrName(pokemonInfo.PokemonName);
 
-        _memoryCache.Set($"list: {searchValue}", result);
+            return await _cacheManager.GetFromCacheOrPokeApiAsync<Pokemon>(pokemonInfo.PokemonName,
+                pokemonRequestUrl,
+                cancellationToken);
+        });
 
-        return result;
+        var resultArray = await Task.WhenAll(resultTasks);
+
+        return resultArray.ToList();
     }
 
-    public async Task<List<Pokemon>> GetAllPokemonsAsync(int pokemonsCount, int pageNumber, CancellationToken cancellationToken)
+    public async Task<List<Pokemon>> GetAllPokemonsAsync(int pokemonsCount, int pageNumber,
+        CancellationToken cancellationToken)
     {
         return await GetPokemonsByFilterAsync("", pokemonsCount, pageNumber, cancellationToken);
     }
 
-    private async Task<PokemonsInfo> GetAllPokemonsInfoAsync(CancellationToken cancellationToken)
+    private async Task<PokemonsInfo> GetPokemonsInfoAsync(CancellationToken cancellationToken = default)
     {
-        if (_memoryCache.TryGetValue("https://pokeapi.co/api/v2/pokemon?limit=10000&offset=0", out var allPokemonsInfo))
-            return allPokemonsInfo as PokemonsInfo
-                   ?? throw new InvalidCastException("In memory cache was added not valid data");
-
-        var requestUrl = new Uri("https://pokeapi.co/api/v2/pokemon?limit=10000&offset=0");
-
-        return await SendGetRequestAndDeserializeAsyncTo<PokemonsInfo>(requestUrl, cancellationToken);
-    }
-
-    private async Task<T> SendGetRequestAndDeserializeAsyncTo<T>(Uri requestUrl,
-        CancellationToken cancellationToken = default)
-        where T : class
-    {
-        var resulJson = await _messageSender.SendGetRequestAsync(requestUrl, cancellationToken);
-        return JsonSerializer.Deserialize<T>(resulJson) ?? throw new NullReferenceException(
-            $"Null {nameof(T)} was returned from {requestUrl} in {nameof(PokeApiService)} service");
+        var allPokemonsInfoUrl = _urlManager.GetPokemonsInfoUri();
+        return await _cacheManager.GetFromCacheOrPokeApiAsync<PokemonsInfo>(nameof(PokemonsInfo), allPokemonsInfoUrl,
+            cancellationToken);
     }
 }

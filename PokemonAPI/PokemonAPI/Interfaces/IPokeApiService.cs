@@ -4,7 +4,7 @@ namespace PokemonAPI.Interfaces;
 
 public interface IPokeApiService
 {
-    public Task<DetailPokemon> GetPokemonAsync(string pokemonSearchParameter, CancellationToken cancellationToken);
+    public Task<Pokemon> GetPokemonAsync(string pokemonSearchParameter, CancellationToken cancellationToken);
 
     public Task<List<Pokemon>> GetPokemonsByFilterAsync(string searchValue, int pokemonsCount,
         int pageNumber, CancellationToken cancellationToken);
