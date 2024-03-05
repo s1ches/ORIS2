@@ -5,10 +5,19 @@ using PokemonAPI.Models;
 
 namespace PokemonAPI.Services;
 
+/// <summary>
+/// Responsible for send requests on pokeAPI and gets the pokemons
+/// </summary>
 public class PokeApiRequestMessageSender : IPokeApiRequestMessageSender
 {
     private readonly HttpClient _httpClient = new();
 
+    /// <summary>
+    /// Responsible for send the request on pokeAPI and returns the JSON of result
+    /// </summary>
+    /// <param name="requestUrl">Request url</param>
+    /// <param name="cancellationToken"></param>
+    /// <returns>JSON of result</returns>
     public async Task<string> SendGetRequestAsync(Uri requestUrl, CancellationToken cancellationToken = default)
     {
         var message = new HttpRequestMessage();
@@ -24,6 +33,13 @@ public class PokeApiRequestMessageSender : IPokeApiRequestMessageSender
         return await httpResponse.Content.ReadAsStringAsync(cancellationToken);
     }
 
+    /// <summary>
+    /// Responsible for send the request on pokeAPI and Deserialize JSON result
+    /// </summary>
+    /// <param name="requestUrl">Request url</param>
+    /// <param name="cancellationToken"></param>
+    /// <typeparam name="T">Entity from pokeAPI</typeparam>
+    /// <returns>Deserialized entity from pokeAPI</returns>
     public async Task<PokeApiResponse<T>> SendGetRequestAndDeserializeAsync<T>(Uri requestUrl, CancellationToken cancellationToken = default) where T : class
     {
         var resultJson = await SendGetRequestAsync(requestUrl, cancellationToken);

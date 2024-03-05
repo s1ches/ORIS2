@@ -3,6 +3,9 @@ using PokemonAPI.Exceptions;
 
 namespace PokemonAPI.Handlers;
 
+/// <summary>
+/// Сlass responsible for handling exceptions
+/// </summary>
 public static class ExceptionHandler
 {
     public static async Task HandleAsync(Exception exception, HttpContext context)

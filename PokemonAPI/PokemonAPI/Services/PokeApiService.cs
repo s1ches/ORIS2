@@ -1,9 +1,12 @@
-using PokemonAPI.Exceptions;
 using PokemonAPI.Interfaces;
 using PokemonAPI.Models;
+using PokemonAPI.Models.PokeApiModels;
 
 namespace PokemonAPI.Services;
 
+/// <summary>
+/// Responsible for returns the pokemons from pokeAPI
+/// </summary>
 public class PokeApiService : IPokeApiService
 {
     private readonly IPokeApiUrlManager _urlManager;
@@ -13,6 +16,13 @@ public class PokeApiService : IPokeApiService
     public PokeApiService(IPokeApiUrlManager urlManager, IPokeApiCacheManager cacheManager)
         => (_cacheManager, _urlManager) = (cacheManager, urlManager);
 
+    /// <summary>
+    /// Returns pokemon by fullName or id
+    /// </summary>
+    /// <param name="pokemonSearchParameter">Name or Id</param>
+    /// <param name="cancellationToken"></param>
+    /// <returns>Pokemon</returns>
+    /// <exception cref="ArgumentException">If pokemonSearchParameter is null or white space</exception>
     public async Task<Pokemon> GetPokemonAsync(string pokemonSearchParameter,
         CancellationToken cancellationToken = default)
     {
@@ -30,7 +40,15 @@ public class PokeApiService : IPokeApiService
 
         return result;
     }
-
+    
+    /// <summary>
+    /// Returns pokemons count pokemons on page number page with names which includes search value
+    /// </summary>
+    /// <param name="searchValue">A part of pokemon name</param>
+    /// <param name="pokemonsCount">Count of pokemons</param>
+    /// <param name="pageNumber">Page number</param>
+    /// <param name="cancellationToken"></param>
+    /// <returns>Pokemons List with name which includes searchValue</returns>
     public async Task<List<Pokemon>> GetPokemonsByFilterAsync(string searchValue = "", int pokemonsCount = 15,
         int pageNumber = 0, CancellationToken cancellationToken = default)
     {
@@ -56,12 +74,24 @@ public class PokeApiService : IPokeApiService
         return resultArray.ToList();
     }
 
+    /// <summary>
+    /// Returns pokemons count pokemons on page number page
+    /// </summary>
+    /// <param name="pokemonsCount">Count of pokemons</param>
+    /// <param name="pageNumber">Page number</param>
+    /// <param name="cancellationToken"></param>
+    /// <returns>Pokemons List</returns>
     public async Task<List<Pokemon>> GetAllPokemonsAsync(int pokemonsCount, int pageNumber,
         CancellationToken cancellationToken)
     {
         return await GetPokemonsByFilterAsync("", pokemonsCount, pageNumber, cancellationToken);
     }
 
+    /// <summary>
+    /// Returns PokemonsInfo from cache or from pokeAPI
+    /// </summary>
+    /// <param name="cancellationToken"></param>
+    /// <returns>PokemonsInfo</returns>
     private async Task<PokemonsInfo> GetPokemonsInfoAsync(CancellationToken cancellationToken = default)
     {
         var allPokemonsInfoUrl = _urlManager.GetPokemonsInfoUri();

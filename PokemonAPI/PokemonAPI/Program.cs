@@ -1,4 +1,5 @@
 using PokemonAPI.Interfaces;
+using PokemonAPI.Middlewares;
 using PokemonAPI.Services;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -9,9 +10,10 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+builder.Services.AddSingleton<ExceptionMiddleware>();
+
 builder.Services.AddStackExchangeRedisCache(options => {
     options.Configuration = "localhost";
-    options.InstanceName = "local";
 });
 
 builder.Services.AddScoped<IPokeApiUrlManager, PokeApiUrlManager>();
@@ -31,5 +33,7 @@ if (app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 
 app.MapControllers();
+
+app.UseMiddleware<ExceptionMiddleware>();
 
 app.Run();
