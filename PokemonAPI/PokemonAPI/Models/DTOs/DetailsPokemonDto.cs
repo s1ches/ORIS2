@@ -6,14 +6,29 @@ namespace PokemonAPI.Models.DTOs;
 
 public class DetailsPokemonDto: PokemonDto, IMapWith<Pokemon, DetailsPokemonDto>
 {
+    /// <summary>
+    /// Pokemon Height in decimeters
+    /// </summary>
     public int Height { get; set; } 
         
+    /// <summary>
+    /// Pokemon weight in kilograms
+    /// </summary>
     public int Weight { get; set; }
     
+    /// <summary>
+    /// Pokemon abilities list
+    /// </summary>
     public List<string> Abilities { get; set; }
     
+    /// <summary>
+    /// Pokemon Moves List
+    /// </summary>
     public List<string> Moves { get; set; }
     
+    /// <summary>
+    /// Pokemon Stats List
+    /// </summary>
     public List<StatDto> Stats { get; set; }
     
     public static DetailsPokemonDto Map(Pokemon entity)

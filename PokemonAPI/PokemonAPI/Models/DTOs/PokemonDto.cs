@@ -5,12 +5,24 @@ namespace PokemonAPI.Models.DTOs;
 
 public class PokemonDto: IMapWith<Pokemon, PokemonDto>
 {
+    /// <summary>
+    /// Pokemon Id
+    /// </summary>
     public int Id { get; set; }
 
+    /// <summary>
+    /// Pokemon Name
+    /// </summary>
     public string Name { get; set; }
     
+    /// <summary>
+    /// Pokemon image url
+    /// </summary>
     public Uri ImageUrl { get; set; }
 
+    /// <summary>
+    /// Pokemon Types List
+    /// </summary>
     public List<string> Types { get; set; }
     
     public static PokemonDto Map(Pokemon entity)

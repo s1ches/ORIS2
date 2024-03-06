@@ -1,6 +1,7 @@
 using System.Text.Json.Serialization;
+using PokemonAPI.Models.Properties.PokemonInfoProperties;
 
-namespace PokemonAPI.Models;
+namespace PokemonAPI.Models.PokeApiModels;
 
 public class PokemonsInfo
 {

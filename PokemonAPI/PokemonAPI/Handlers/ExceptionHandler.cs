@@ -20,15 +20,17 @@ public static class ExceptionHandler
         context.Response.StatusCode = (int)HttpStatusCode.NotFound;
     }
 
-    private static void HandleException(HttpRequestException _, HttpContext context)
+    private static void HandleException(HttpRequestException exception, HttpContext context)
     {
-        context.Response.StatusCode = (int)HttpStatusCode.BadRequest;
+        if (int.TryParse(exception.Message, out var statusCode))
+            context.Response.StatusCode = statusCode;
+        else
+            context.Response.StatusCode = (int)HttpStatusCode.BadRequest;
     }
 
     private static void HandleException(NullReferenceException _, HttpContext context)
     {
         context.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
-        
     }
 
     private static void HandleException(ArgumentException _, HttpContext context)

@@ -8,7 +8,13 @@ public class StatDto
         StatValue = statValue;
     }
 
+    /// <summary>
+    /// Pokemon Stat Name
+    /// </summary>
     public string StatName { get; set; }
     
+    /// <summary>
+    /// Pokemon Stat Value
+    /// </summary>
     public int StatValue { get; set; }
 }

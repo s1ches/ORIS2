@@ -1,6 +1,6 @@
 using PokemonAPI.Interfaces;
-using PokemonAPI.Models;
 using PokemonAPI.Models.PokeApiModels;
+using PokemonAPI.Models.Properties.PokemonInfoProperties;
 
 namespace PokemonAPI.Services;
 
@@ -11,10 +11,13 @@ public class PokeApiService : IPokeApiService
 {
     private readonly IPokeApiUrlManager _urlManager;
 
-    private readonly IPokeApiCacheManager _cacheManager;
+    private readonly ICacheManager _cacheManager;
 
-    public PokeApiService(IPokeApiUrlManager urlManager, IPokeApiCacheManager cacheManager)
-        => (_cacheManager, _urlManager) = (cacheManager, urlManager);
+    private readonly ISearchFilter<PokemonInfo> _pokemonFilter;
+
+    public PokeApiService(IPokeApiUrlManager urlManager, ICacheManager cacheManager,
+        ISearchFilter<PokemonInfo> pokemonFilter)
+        => (_cacheManager, _urlManager, _pokemonFilter) = (cacheManager, urlManager, pokemonFilter);
 
     /// <summary>
     /// Returns pokemon by fullName or id
@@ -31,16 +34,16 @@ public class PokeApiService : IPokeApiService
                                         $" method of {nameof(PokeApiService)} service");
 
         pokemonSearchParameter = pokemonSearchParameter.Trim().ToLower();
-        
+
         var requestUrl = _urlManager.GetPokemonUriByIdOrName(pokemonSearchParameter);
-        
+
         var result =
-            await _cacheManager.GetFromCacheOrPokeApiAsync<Pokemon>(pokemonSearchParameter, requestUrl,
+            await _cacheManager.GetFromCacheOrApiAsync<Pokemon>(pokemonSearchParameter, requestUrl,
                 cancellationToken);
 
         return result;
     }
-    
+
     /// <summary>
     /// Returns pokemons count pokemons on page number page with names which includes search value
     /// </summary>
@@ -52,19 +55,22 @@ public class PokeApiService : IPokeApiService
     public async Task<List<Pokemon>> GetPokemonsByFilterAsync(string searchValue = "", int pokemonsCount = 15,
         int pageNumber = 0, CancellationToken cancellationToken = default)
     {
+        if (pokemonsCount < 0 || pageNumber < 0)
+            throw new ArgumentException(
+                $"Arguments pokemonsCount: {pokemonsCount} and pageNumber {pageNumber} need to be more then zero");
+
         searchValue = searchValue.Trim().ToLower();
 
         var allPokemonsInfo = await GetPokemonsInfoAsync(cancellationToken);
 
-        var rightPokemonsInfo = allPokemonsInfo.Pokemons
-            .Where(pokemon => pokemon.PokemonName.Contains(searchValue, StringComparison.OrdinalIgnoreCase))
-            .Skip(pokemonsCount * pageNumber).Take(pokemonsCount);
+        var rightPokemonsInfo =
+            _pokemonFilter.GetFiltered(searchValue, pokemonsCount, pageNumber, allPokemonsInfo.Pokemons);
 
         var resultTasks = rightPokemonsInfo.Select(async (pokemonInfo) =>
         {
             var pokemonRequestUrl = _urlManager.GetPokemonUriByIdOrName(pokemonInfo.PokemonName);
 
-            return await _cacheManager.GetFromCacheOrPokeApiAsync<Pokemon>(pokemonInfo.PokemonName,
+            return await _cacheManager.GetFromCacheOrApiAsync<Pokemon>(pokemonInfo.PokemonName,
                 pokemonRequestUrl,
                 cancellationToken);
         });
@@ -95,7 +101,7 @@ public class PokeApiService : IPokeApiService
     private async Task<PokemonsInfo> GetPokemonsInfoAsync(CancellationToken cancellationToken = default)
     {
         var allPokemonsInfoUrl = _urlManager.GetPokemonsInfoUri();
-        return await _cacheManager.GetFromCacheOrPokeApiAsync<PokemonsInfo>(nameof(PokemonsInfo), allPokemonsInfoUrl,
+        return await _cacheManager.GetFromCacheOrApiAsync<PokemonsInfo>(nameof(PokemonsInfo), allPokemonsInfoUrl,
             cancellationToken);
     }
 }

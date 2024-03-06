@@ -12,9 +12,10 @@ namespace PokemonAPI.Controllers;
 public class PokemonController : ControllerBase
 {
     private readonly IPokeApiService _pokeApiService;
-
-    public PokemonController(IPokeApiService pokeApiService) => _pokeApiService = pokeApiService;
     
+    public PokemonController(IPokeApiService pokeApiService) =>
+        _pokeApiService = pokeApiService;
+
     /// <summary>
     /// Returns Details Pokemon
     /// </summary>
@@ -49,7 +50,6 @@ public class PokemonController : ControllerBase
         [FromQuery] int pageNumber,
         CancellationToken cancellationToken)
     {
-
         var pokemonsList =
             await _pokeApiService.GetPokemonsByFilterAsync(search, pokemonsCount, pageNumber, cancellationToken);
 

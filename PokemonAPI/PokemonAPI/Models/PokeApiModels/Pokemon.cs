@@ -1,4 +1,7 @@
 using System.Text.Json.Serialization;
+using PokemonAPI.Models.Properties.PokeApiModelsProperties.DetailPokemonProperties;
+using PokemonAPI.Models.Properties.PokeApiModelsProperties.PokemonProperties;
+using Type = PokemonAPI.Models.Properties.PokeApiModelsProperties.PokemonProperties.Type;
 
 namespace PokemonAPI.Models.PokeApiModels;
 

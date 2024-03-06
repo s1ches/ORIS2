@@ -1,6 +1,6 @@
 using System.Text.Json.Serialization;
 
-namespace PokemonAPI.Models;
+namespace PokemonAPI.Models.Properties.PokeApiModelsProperties.PokemonProperties;
 
 public class Others
 {

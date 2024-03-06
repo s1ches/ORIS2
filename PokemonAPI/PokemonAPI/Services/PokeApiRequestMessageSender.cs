@@ -28,7 +28,7 @@ public class PokeApiRequestMessageSender : IPokeApiRequestMessageSender
 
         if (httpResponse.StatusCode != HttpStatusCode.OK)
             throw new HttpRequestException(
-                $"Request returned Response with status code {httpResponse.StatusCode}");
+                $"{(int)httpResponse.StatusCode}");
 
         return await httpResponse.Content.ReadAsStringAsync(cancellationToken);
     }
