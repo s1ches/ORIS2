@@ -3,7 +3,6 @@ import Types from "./Types";
 import Stats from "./Stats";
 
 const PokemonCardDetails = ({pokemon}) => {
-    console.log(pokemon.types)
     return (
         <div className="pokemon-details-card">
             <div className="pokemon-details-card-header">
@@ -15,7 +14,7 @@ const PokemonCardDetails = ({pokemon}) => {
             </div>
             <div className="pokemon-details-card-content">
                 <Stats stats={pokemon?.stats} />
-                <img alt="" className="pokemon-details-card-img" src={`https://projectpokemon.org/images/sprites-models/pgo-sprites/pm${pokemon?.id}.icon.png`} />
+                <img alt="" className="pokemon-details-card-img" src={pokemon.imageUrl} />
             </div>
         </div>
     );

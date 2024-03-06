@@ -22,7 +22,7 @@ const typesAndColors = {
 const typeToColor = (type) => {
     let lowerType = type.toLowerCase();
 
-    if(typesAndColors[lowerType] != undefined)
+    if(typesAndColors[lowerType] !== undefined)
         return typesAndColors[lowerType];
 
     return "#0080FF";

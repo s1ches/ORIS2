@@ -1,17 +1,18 @@
 import React, {useEffect, useState} from 'react';
 import {useParams} from "react-router-dom";
-import typeToColor from "../../functions/typeToColor";
 import Header from "./components/Header";
 import PokemonCardDetails from "./components/PokemonCardDetails/PokemonCardDetails";
 import Loading from "../../components/Loading";
 import BreedingCard from "./components/BreedingCard";
 import MovesCard from "./components/MovesCard";
 import AbilitiesCard from "./components/AbilitiesCard";
+import typeToColor from "../../functions/typeToColor";
 
 const PokemonDetailsPage = () => {
     const [pokemonDetails, setPokemonDetails] = useState({
         id: 0,
         name: "",
+        imageUrl: "",
         types: [{typeName: "", typeColor: ""}],
         breeding: {height: 0, weight: 0},
         abilities: [],
@@ -19,32 +20,37 @@ const PokemonDetailsPage = () => {
         stats: {hp: 0, attack: 0, defense: 0, speed: 0}
     });
 
+    let isLoading = true;
     const pokemonName = useParams();
 
     useEffect(() => {
         const fetchData = async () => {
-            const poke = await (await fetch(`https://pokeapi.co/api/v2/pokemon/${pokemonName.name}`)).json();
-            setPokemonDetails({
-                id: poke?.id,
-                name: poke?.forms[0]?.name,
-                breeding: {height: poke?.height, weight: poke?.weight},
-                types: poke?.types?.map(x => {return {typeName: x?.type?.name, typeColor: typeToColor(x?.type?.name)}}),
-                abilities: poke?.abilities.map(x => x?.ability?.name),
-                moves: poke?.moves.map(x => x?.move?.name),
-                stats: {
-                    hp: poke?.stats?.filter(x => x?.stat?.name === "hp")[0]?.base_stat,
-                    attack: poke?.stats?.filter(x => x?.stat?.name === "attack")[0]?.base_stat,
-                    defense: poke?.stats?.filter(x => x?.stat?.name === "defense")[0]?.base_stat,
-                    speed: poke?.stats?.filter(x => x?.stat?.name === "speed")[0]?.base_stat,
-                }
-            });
+            fetch(`https://localhost:44340/api/Pokemon/GetPokemonByIdOrName/${pokemonName.name}`)
+                .then(response => response.json())
+                .then(poke => setPokemonDetails({
+                    id: poke?.id,
+                    name: poke?.name,
+                    imageUrl: poke?.imageUrl,
+                    breeding: {height: poke?.height, weight: poke?.weight},
+                    types: poke?.types.map(t => {return {typeName: t, typeColor: typeToColor(t)}}),
+                    abilities: poke?.abilities,
+                    moves: poke?.moves,
+                    stats: {
+                        hp: poke?.stats?.filter(x => x?.statName === "hp")[0]?.statValue,
+                        attack: poke?.stats?.filter(x => x?.statName === "attack")[0]?.statValue,
+                        defense: poke?.stats?.filter(x => x?.statName === "defense")[0]?.statValue,
+                        speed: poke?.stats?.filter(x => x?.statName === "speed")[0]?.statValue,
+                    }
+                }));
         };
-        fetchData();
-    }, []);
 
-    console.log(pokemonDetails);
+        fetchData().then(r => console.log('fetched pokemonDetails'));
+    }, [pokemonName.name]);
 
     if(pokemonDetails.id !== 0)
+        isLoading = false;
+
+    if(!isLoading)
         return (
             <>
                 <Header />

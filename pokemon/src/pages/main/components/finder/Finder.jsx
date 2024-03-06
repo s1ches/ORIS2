@@ -1,7 +1,7 @@
 import React from 'react';
 import Input from "./Input";
 
-const Finder = ({...props}) => {
+const Finder = ({onChange, onButtonClick}) => {
     return (
         <div className="finder">
             <div className="finder-wrapper">
@@ -9,7 +9,7 @@ const Finder = ({...props}) => {
                 <img className="pokeball" alt="" src="/icons/Pokeball.svg"/>
             </div>
             <div className="finder-input">
-                <Input {...props} />
+                <Input onChange={onChange} onButtonClick={onButtonClick}/>
             </div>
         </div>
     );

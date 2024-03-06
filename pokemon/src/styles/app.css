@@ -268,8 +268,8 @@ a {
 }
 
 .pokemon-details-card-img {
-    right: -55px;
-    top: -35px;
+    right: 0px;
+    top: 0px;
     position: absolute;
     width: calc(180px + 8 * (100vw - 320px) / 280);
     height: calc(180px + 8 * (100vw - 320px) / 280);

@@ -1,6 +1,7 @@
 import React from 'react';
 import PokemonType from "./pokemonType/PokemonType";
 import {Link} from "react-router-dom";
+import typeToColor from "../../../../../functions/typeToColor";
 
 const PokemonCard = (props) => {
     let pokemon = props.props;
@@ -17,11 +18,11 @@ const PokemonCard = (props) => {
                 </div>
             </div>
             <div className="card-content">
-                <img alt="" className="card-image" src={pokemon?.imgUrl}/>
+                <img alt="" className="card-image" src={pokemon?.imageUrl}/>
             </div>
             <div className="card-footer">
-                {pokemon?.typeArr.map(type => (
-                    <PokemonType style={{background: type.color}}> {type.typeName}</PokemonType>))}
+                {pokemon?.types.map(type => (
+                    <PokemonType style={{background: typeToColor(type)}}> {type}</PokemonType>))}
             </div>
         </div>
         </Link>
