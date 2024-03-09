@@ -115,7 +115,7 @@ a {
     };
 }
 
-@media (max-width: 768px){
+@media (max-width: 1024px){
     .pokemon-list-wrapper {
         grid-template-columns: repeat(5, minmax(135px, 1fr));
     };

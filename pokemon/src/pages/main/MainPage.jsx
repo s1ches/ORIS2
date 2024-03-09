@@ -10,7 +10,7 @@ const MainPage = () => {
     const [fetching, setFetching] = useState(true);
     const [namesLinks, setNamesLinks] = useState([]);
     const [start, setStart] = useState(1);
-    const [stop, setStop] = useState(16);
+    const [stop, setStop] = useState(21);
     const [lastFetched, setLastFetched] = useState('all');
     const [isLoading, setIsLoading] = useState(true);
 
@@ -37,7 +37,7 @@ const MainPage = () => {
                 if (lastFetched !== "all") {
                     setLastFetched("all");
                     setStart(1);
-                    setStop(16);
+                    setStop(21);
 
                     for (let i = 1; i <= 16; ++i)
                         result.push(await invokePokemon(i));
@@ -55,8 +55,8 @@ const MainPage = () => {
                 if (lastFetched !== "byName") {
                     setLastFetched("byName");
                     setStart(1);
-                    setStop(16);
-                    for (let i = 1; i <= 16 && i < neededNamesLinks.length; ++i) {
+                    setStop(21);
+                    for (let i = 1; i <= 21 && i < neededNamesLinks.length; ++i) {
                         console.log(neededNamesLinks[i]?.name);
                         result.push(await invokePokemon(neededNamesLinks[i]?.name));
                     }
@@ -73,7 +73,7 @@ const MainPage = () => {
             }
 
             setStart(stop + 1);
-            setStop(stop + 16);
+            setStop(stop + 21);
             setIsLoading(false);
         };
 
@@ -106,8 +106,11 @@ const MainPage = () => {
         };
     }, []);
 
+    const hasScrollbar = element => element.scrollWidth > element.clientWidth || element.scrollHeight > element.clientHeight;
+
     const scrollHandler = (event) => {
-        if (event.target.documentElement.scrollHeight - (event.target.documentElement.scrollTop + window.innerHeight) < 200
+        if ((event.target.documentElement.scrollHeight - (event.target.documentElement.scrollTop + window.innerHeight) < 150
+            || !hasScrollbar(document.getElementById("root")))
             && stop < countPokemons) {
             setFetching(true);
         }
