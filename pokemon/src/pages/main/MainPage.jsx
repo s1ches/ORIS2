@@ -10,7 +10,7 @@ const MainPage = () => {
     const [fetching, setFetching] = useState(true);
     const [namesLinks, setNamesLinks] = useState([]);
     const [start, setStart] = useState(1);
-    const [stop, setStop] = useState(21);
+    const [stop, setStop] = useState(30);
     const [lastFetched, setLastFetched] = useState('all');
     const [isLoading, setIsLoading] = useState(true);
 
@@ -37,9 +37,9 @@ const MainPage = () => {
                 if (lastFetched !== "all") {
                     setLastFetched("all");
                     setStart(1);
-                    setStop(21);
+                    setStop(30);
 
-                    for (let i = 1; i <= 16; ++i)
+                    for (let i = 1; i <= 30; ++i)
                         result.push(await invokePokemon(i));
 
                     setPokemons(result);
@@ -55,8 +55,8 @@ const MainPage = () => {
                 if (lastFetched !== "byName") {
                     setLastFetched("byName");
                     setStart(1);
-                    setStop(21);
-                    for (let i = 1; i <= 21 && i < neededNamesLinks.length; ++i) {
+                    setStop(30);
+                    for (let i = 1; i <= 30 && i < neededNamesLinks.length; ++i) {
                         console.log(neededNamesLinks[i]?.name);
                         result.push(await invokePokemon(neededNamesLinks[i]?.name));
                     }
@@ -73,7 +73,7 @@ const MainPage = () => {
             }
 
             setStart(stop + 1);
-            setStop(stop + 21);
+            setStop(stop + 30);
             setIsLoading(false);
         };
 
