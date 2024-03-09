@@ -106,11 +106,8 @@ const MainPage = () => {
         };
     }, []);
 
-    const hasScrollbar = element => element.scrollWidth > element.clientWidth || element.scrollHeight > element.clientHeight;
-
     const scrollHandler = (event) => {
-        if ((event.target.documentElement.scrollHeight - (event.target.documentElement.scrollTop + window.innerHeight) < 150
-            || !hasScrollbar(document.getElementById("root")))
+        if ((event.target.documentElement.scrollHeight - (event.target.documentElement.scrollTop + window.innerHeight) < 150)
             && stop < countPokemons) {
             setFetching(true);
         }
