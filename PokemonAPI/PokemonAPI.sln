@@ -4,6 +4,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PokemonAPI", "PokemonAPI\Po
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PokemonAPI.IntegrationTests", "PokemonAPI.IntegrationTests\PokemonAPI.IntegrationTests.csproj", "{3215ADAC-5D7E-4C11-9AF4-348140E11462}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PokeAPI.DAL", "PokeAPI.DAL\PokeAPI.DAL.csproj", "{84B6090C-8A4C-4125-AEFC-B6C6C928FD60}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -18,5 +20,9 @@ Global
 		{3215ADAC-5D7E-4C11-9AF4-348140E11462}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3215ADAC-5D7E-4C11-9AF4-348140E11462}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3215ADAC-5D7E-4C11-9AF4-348140E11462}.Release|Any CPU.Build.0 = Release|Any CPU
+		{84B6090C-8A4C-4125-AEFC-B6C6C928FD60}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{84B6090C-8A4C-4125-AEFC-B6C6C928FD60}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{84B6090C-8A4C-4125-AEFC-B6C6C928FD60}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{84B6090C-8A4C-4125-AEFC-B6C6C928FD60}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
