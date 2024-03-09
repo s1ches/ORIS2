@@ -107,7 +107,7 @@ const MainPage = () => {
     }, []);
 
     const scrollHandler = (event) => {
-        if ((event.target.documentElement.scrollHeight - (event.target.documentElement.scrollTop + window.innerHeight) < 150)
+        if ((event.target.documentElement.scrollHeight - (event.target.documentElement.scrollTop + window.innerHeight) < 100)
             && stop < countPokemons) {
             setFetching(true);
         }
