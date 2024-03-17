@@ -4,7 +4,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PokemonAPI", "PokemonAPI\Po
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PokemonAPI.IntegrationTests", "PokemonAPI.IntegrationTests\PokemonAPI.IntegrationTests.csproj", "{3215ADAC-5D7E-4C11-9AF4-348140E11462}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PokeAPI.DAL", "PokeAPI.DAL\PokeAPI.DAL.csproj", "{84B6090C-8A4C-4125-AEFC-B6C6C928FD60}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PokemonAPI.DAL", "PokemonAPI.DAL\PokemonAPI.DAL.csproj", "{84B6090C-8A4C-4125-AEFC-B6C6C928FD60}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

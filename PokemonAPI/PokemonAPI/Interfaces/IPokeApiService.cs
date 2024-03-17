@@ -1,5 +1,3 @@
-using PokemonAPI.Models.PokeApiModels;
-
 namespace PokemonAPI.Interfaces;
 
 /// <summary>
@@ -14,7 +12,7 @@ public interface IPokeApiService
     /// <param name="cancellationToken"></param>
     /// <returns>Pokemon</returns>
     /// <exception cref="ArgumentException">If pokemonSearchParameter is null or white space</exception>
-    public Task<Pokemon> GetPokemonAsync(string pokemonSearchParameter, CancellationToken cancellationToken);
+    public Task<int> GetPokemonIdAsync(string pokemonSearchParameter, CancellationToken cancellationToken);
 
     /// <summary>
     /// Returns pokemons count pokemons on page number page with names which includes search value
@@ -24,7 +22,7 @@ public interface IPokeApiService
     /// <param name="pageNumber">Page number</param>
     /// <param name="cancellationToken"></param>
     /// <returns>Pokemons List with name which includes searchValue</returns>
-    public Task<List<Pokemon>> GetPokemonsByFilterAsync(string searchValue, int pokemonsCount,
+    public Task<List<int>> GetPokemonsIdByFilterAsync(string searchValue, int pokemonsCount,
         int pageNumber, CancellationToken cancellationToken);
 
     /// <summary>
@@ -34,6 +32,6 @@ public interface IPokeApiService
     /// <param name="pageNumber">Page number</param>
     /// <param name="cancellationToken"></param>
     /// <returns>Pokemons List</returns>
-    public Task<List<Pokemon>> GetAllPokemonsAsync(int pokemonsCount, int pageNumber,
+    public Task<List<int>> GetAllPokemonsIdAsync(int pokemonsCount, int pageNumber,
         CancellationToken cancellationToken);
 }

@@ -1,5 +1,5 @@
 using System.Net;
-using PokemonAPI.Models.DTOs;
+using PokemonAPI.Models.DTOs.Pokemon;
 using JsonSerializer = System.Text.Json.JsonSerializer;
 
 namespace PokemonAPI.IntegrationTests.PokeApiControllerTests;
@@ -29,7 +29,7 @@ public class GetPokemonByIdOrNameTest
         // Act
         var response = await ApiMessageSender.SendRequest(requestUri);
         var pokemonJson = await response.Content.ReadAsStringAsync();
-        var pokemon = JsonSerializer.Deserialize<DetailsPokemonDto>(pokemonJson, MyJsonSerializerOptions.Options);
+        var pokemon = JsonSerializer.Deserialize<DetailsReadPokemonDto>(pokemonJson, MyJsonSerializerOptions.Options);
 
         // Assert
         Assert.IsTrue(pokemon is not null && pokemon.Id == 1);
@@ -45,7 +45,7 @@ public class GetPokemonByIdOrNameTest
         // Act
         var response = await ApiMessageSender.SendRequest(requestUri);
         var pokemonJson = await response.Content.ReadAsStringAsync();
-        var pokemon = JsonSerializer.Deserialize<DetailsPokemonDto>(pokemonJson, MyJsonSerializerOptions.Options);
+        var pokemon = JsonSerializer.Deserialize<DetailsReadPokemonDto>(pokemonJson, MyJsonSerializerOptions.Options);
 
         // Assert
         Assert.IsTrue(pokemon is not null && pokemon.Name.Equals(pokemonName, StringComparison.OrdinalIgnoreCase));

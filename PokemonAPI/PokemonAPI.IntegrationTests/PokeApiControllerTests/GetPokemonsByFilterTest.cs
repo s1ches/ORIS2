@@ -1,5 +1,5 @@
 using System.Text.Json;
-using PokemonAPI.Models.DTOs;
+using PokemonAPI.Models.DTOs.Pokemon;
 
 namespace PokemonAPI.IntegrationTests.PokeApiControllerTests;
 
@@ -22,9 +22,9 @@ public class GetPokemonsByFilterTest
         var pokemonsListJson2 = await response2.Content.ReadAsStringAsync();
 
         var pokemonsList1 =
-            JsonSerializer.Deserialize<List<PokemonDto>>(pokemonsListJson1, MyJsonSerializerOptions.Options);
+            JsonSerializer.Deserialize<List<ReadPokemonDto>>(pokemonsListJson1, MyJsonSerializerOptions.Options);
         var pokemonsList2 =
-            JsonSerializer.Deserialize<List<PokemonDto>>(pokemonsListJson2, MyJsonSerializerOptions.Options);
+            JsonSerializer.Deserialize<List<ReadPokemonDto>>(pokemonsListJson2, MyJsonSerializerOptions.Options);
 
         // Assert
         var equalsPokemons =
@@ -47,7 +47,7 @@ public class GetPokemonsByFilterTest
         var response = await ApiMessageSender.SendRequest(requestUri);
         var pokemonsListJson = await response.Content.ReadAsStringAsync();
         var pokemonsList =
-            JsonSerializer.Deserialize<List<PokemonDto>>(pokemonsListJson, MyJsonSerializerOptions.Options);
+            JsonSerializer.Deserialize<List<ReadPokemonDto>>(pokemonsListJson, MyJsonSerializerOptions.Options);
 
         // Assert
         Assert.IsTrue(pokemonsList.Count == 0);
@@ -64,7 +64,7 @@ public class GetPokemonsByFilterTest
         var response = await ApiMessageSender.SendRequest(requestUri);
         var pokemonsListJson = await response.Content.ReadAsStringAsync();
         var pokemonsList =
-            JsonSerializer.Deserialize<List<PokemonDto>>(pokemonsListJson, MyJsonSerializerOptions.Options);
+            JsonSerializer.Deserialize<List<ReadPokemonDto>>(pokemonsListJson, MyJsonSerializerOptions.Options);
 
         // Assert
         var rightPokemonsList = pokemonsList.Where(pokemon =>

@@ -1,6 +1,9 @@
+using Microsoft.EntityFrameworkCore;
+using PokemonAPI.DAL;
+using PokemonAPI.DAL.Entities;
+using PokemonAPI.Exceptions;
+using PokemonAPI.Extensions;
 using PokemonAPI.Interfaces;
-using PokemonAPI.Models.PokeApiModels;
-using PokemonAPI.Models.Properties.PokemonInfoProperties;
 
 namespace PokemonAPI.Services;
 
@@ -9,15 +12,14 @@ namespace PokemonAPI.Services;
 /// </summary>
 public class PokeApiService : IPokeApiService
 {
-    private readonly IPokeApiUrlManager _urlManager;
+    private readonly IDbContext _dbContext;
 
-    private readonly ICacheManager _cacheManager;
-
-    private readonly ISearchFilter<PokemonInfo> _pokemonFilter;
-
-    public PokeApiService(IPokeApiUrlManager urlManager, ICacheManager cacheManager,
-        ISearchFilter<PokemonInfo> pokemonFilter)
-        => (_cacheManager, _urlManager, _pokemonFilter) = (cacheManager, urlManager, pokemonFilter);
+    /// <summary>
+    /// Constructor
+    /// </summary>
+    /// <param name="dbContext">Database Context</param>
+    public PokeApiService(IDbContext dbContext)
+        => _dbContext = dbContext;
 
     /// <summary>
     /// Returns pokemon by fullName or id
@@ -26,22 +28,31 @@ public class PokeApiService : IPokeApiService
     /// <param name="cancellationToken"></param>
     /// <returns>Pokemon</returns>
     /// <exception cref="ArgumentException">If pokemonSearchParameter is null or white space</exception>
-    public async Task<Pokemon> GetPokemonAsync(string pokemonSearchParameter,
+    public async Task<int> GetPokemonIdAsync(string pokemonSearchParameter,
         CancellationToken cancellationToken = default)
     {
         if (string.IsNullOrWhiteSpace(pokemonSearchParameter))
-            throw new ArgumentException($"Empty value was entered in {nameof(GetPokemonAsync)}" +
+            throw new ArgumentException($"Empty value was entered in {nameof(GetPokemonIdAsync)}" +
                                         $" method of {nameof(PokeApiService)} service");
 
         pokemonSearchParameter = pokemonSearchParameter.Trim().ToLower();
 
-        var requestUrl = _urlManager.GetPokemonUriByIdOrName(pokemonSearchParameter);
+        var isSearchParameterId = int.TryParse(pokemonSearchParameter, out _);
 
-        var result =
-            await _cacheManager.GetFromCacheOrApiAsync<Pokemon>(pokemonSearchParameter, requestUrl,
-                cancellationToken);
+        Pokemon resultPokemon;
+        if (isSearchParameterId)
+            resultPokemon = await _dbContext.Pokemons.FirstOrDefaultAsync(x =>
+                    x.Id == int.Parse(pokemonSearchParameter),
+                cancellationToken) ?? throw new PokemonNotFoundException(
+                $"Pokemon by id: {pokemonSearchParameter} was not found");
+        else
+            resultPokemon = await _dbContext.Pokemons.FirstOrDefaultAsync(x =>
+                                x.Name.ToLower().Equals(pokemonSearchParameter),
+                            cancellationToken)
+                        ?? throw new PokemonNotFoundException(
+                            $"Pokemon by name: {pokemonSearchParameter} was not found");
 
-        return result;
+        return resultPokemon.Id;
     }
 
     /// <summary>
@@ -52,32 +63,18 @@ public class PokeApiService : IPokeApiService
     /// <param name="pageNumber">Page number</param>
     /// <param name="cancellationToken"></param>
     /// <returns>Pokemons List with name which includes searchValue</returns>
-    public async Task<List<Pokemon>> GetPokemonsByFilterAsync(string searchValue = "", int pokemonsCount = 15,
+    public async Task<List<int>> GetPokemonsIdByFilterAsync(string searchValue = "", int pokemonsCount = 15,
         int pageNumber = 0, CancellationToken cancellationToken = default)
     {
         if (pokemonsCount < 0 || pageNumber < 0)
             throw new ArgumentException(
-                $"Arguments pokemonsCount: {pokemonsCount} and pageNumber {pageNumber} need to be more then zero");
+                $"{nameof(pokemonsCount)}: {pokemonsCount} and" +
+                $" {nameof(pageNumber)} {pageNumber} must be more then zero");
 
         searchValue = searchValue.Trim().ToLower();
 
-        var allPokemonsInfo = await GetPokemonsInfoAsync(cancellationToken);
-
-        var rightPokemonsInfo =
-            _pokemonFilter.GetFiltered(searchValue, pokemonsCount, pageNumber, allPokemonsInfo.Pokemons);
-
-        var resultTasks = rightPokemonsInfo.Select(async (pokemonInfo) =>
-        {
-            var pokemonRequestUrl = _urlManager.GetPokemonUriByIdOrName(pokemonInfo.PokemonName);
-
-            return await _cacheManager.GetFromCacheOrApiAsync<Pokemon>(pokemonInfo.PokemonName,
-                pokemonRequestUrl,
-                cancellationToken);
-        });
-
-        var resultArray = await Task.WhenAll(resultTasks);
-
-        return resultArray.ToList();
+        return await _dbContext.Pokemons.GetFilteredPokemonsIdAsync(searchValue, pokemonsCount,
+            pageNumber, cancellationToken);
     }
 
     /// <summary>
@@ -87,21 +84,17 @@ public class PokeApiService : IPokeApiService
     /// <param name="pageNumber">Page number</param>
     /// <param name="cancellationToken"></param>
     /// <returns>Pokemons List</returns>
-    public async Task<List<Pokemon>> GetAllPokemonsAsync(int pokemonsCount, int pageNumber,
+    public async Task<List<int>> GetAllPokemonsIdAsync(int pokemonsCount, int pageNumber,
         CancellationToken cancellationToken)
     {
-        return await GetPokemonsByFilterAsync("", pokemonsCount, pageNumber, cancellationToken);
-    }
-
-    /// <summary>
-    /// Returns PokemonsInfo from cache or from pokeAPI
-    /// </summary>
-    /// <param name="cancellationToken"></param>
-    /// <returns>PokemonsInfo</returns>
-    private async Task<PokemonsInfo> GetPokemonsInfoAsync(CancellationToken cancellationToken = default)
-    {
-        var allPokemonsInfoUrl = _urlManager.GetPokemonsInfoUri();
-        return await _cacheManager.GetFromCacheOrApiAsync<PokemonsInfo>(nameof(PokemonsInfo), allPokemonsInfoUrl,
-            cancellationToken);
+        if (pokemonsCount < 0 || pageNumber < 0)
+            throw new ArgumentException(
+                $"{nameof(pokemonsCount)}: {pokemonsCount} and" +
+                $" {nameof(pageNumber)} {pageNumber} must be more then zero");
+        
+        return await _dbContext.Pokemons
+            .OrderBy(x => x.Id)
+            .Select(x => x.Id).Skip(pokemonsCount * pageNumber)
+            .Take(pokemonsCount).ToListAsync(cancellationToken);
     }
 }

@@ -8,6 +8,11 @@ namespace PokemonAPI.Handlers;
 /// </summary>
 public static class ExceptionHandler
 {
+    /// <summary>
+    /// Responsible for handling exceptions
+    /// </summary>
+    /// <param name="exception">Exception</param>
+    /// <param name="context">HttpContext</param>
     public static async Task HandleAsync(Exception exception, HttpContext context)
     {
         context.Response.ContentType = "text/plain";
@@ -37,6 +42,4 @@ public static class ExceptionHandler
     {
         context.Response.StatusCode = (int)HttpStatusCode.BadRequest;
     }
-
-
 }
