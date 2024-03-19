@@ -16,8 +16,14 @@ namespace PokemonAPI.Controllers;
 [Route("api/[controller]")]
 public abstract class CrudBaseController<TEntity, TKey, TCreateDto, TUpdateDto, TReadDto> : ControllerBase
 {
+    /// <summary>
+    /// Mapper
+    /// </summary>
     protected readonly IMapper Mapper;
 
+    /// <summary>
+    /// Repository of Entity
+    /// </summary>
     protected readonly IRepository<TEntity, TKey> Repository;
     
     /// <summary>

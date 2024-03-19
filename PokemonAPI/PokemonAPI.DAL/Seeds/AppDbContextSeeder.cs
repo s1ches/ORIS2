@@ -1,6 +1,5 @@
 using System.Net;
 using System.Text.Json;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using PokemonAPI.DAL.Entities;
 using PokemonAPI.DAL.Seeds.PokeApiModels;
@@ -29,11 +28,14 @@ public class AppDbContextSeeder : ISeeder
     {
         var info = await GetFromApi<PokemonsInfo>(PokemonsInfoUri, cancellationToken);
 
-        foreach (var pokemonInfo in info.Pokemons)
+        var pokemonsNamesFromDb = _dbContext.Pokemons.Select(pokemon => pokemon.Name)
+            .ToHashSet();
+
+        var newPokemons = info.Pokemons.Where(x =>
+            !pokemonsNamesFromDb.Contains(x.PokemonName));
+        
+        foreach (var pokemonInfo in newPokemons)
         {
-            if (await _dbContext.Pokemons.FirstOrDefaultAsync(x 
-                        => x.Name == pokemonInfo.PokemonName, cancellationToken) is not null)
-                continue;
             var pokemon = await GetFromApi<PokemonFromApi>(pokemonInfo.PokemonUrl, cancellationToken)
                 .ConfigureAwait(false);
             

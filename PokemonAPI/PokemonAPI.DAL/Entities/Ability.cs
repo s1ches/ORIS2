@@ -6,7 +6,7 @@ public class Ability
 
     public int PokemonId { get; set; }
     
-    public Pokemon Pokemon { get; set; }
-    
-    public string AbilityName { get; set; }
+    public Pokemon? Pokemon { get; set; }
+
+    public string AbilityName { get; set; } = default!;
 }

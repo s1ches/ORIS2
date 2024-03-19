@@ -6,7 +6,7 @@ public class Move
     
     public int PokemonId { get; set; }
     
-    public Pokemon Pokemon { get; set; }
-    
-    public string MoveName { get; set; }
+    public Pokemon? Pokemon { get; set; }
+
+    public string MoveName { get; set; } = default!;
 }

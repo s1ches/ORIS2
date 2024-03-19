@@ -6,7 +6,7 @@ public class Breeding
     
     public int PokemonId { get; set; }
     
-    public Pokemon Pokemon { get; set; }
+    public Pokemon? Pokemon { get; set; }
     
     public int Weight { get; set; }
     

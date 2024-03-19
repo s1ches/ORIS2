@@ -6,7 +6,7 @@ public class Type
     
     public int PokemonId { get; set; }
     
-    public Pokemon Pokemon { get; set; }
-    
-    public string TypeName { get; set; }
+    public Pokemon? Pokemon { get; set; }
+
+    public string TypeName { get; set; } = default!;
 }

@@ -6,9 +6,9 @@ public class Stat
     
     public int PokemonId { get; set; }
     
-    public Pokemon Pokemon { get; set; }
+    public Pokemon? Pokemon { get; set; }
 
-    public string StatName { get; set; }
+    public string StatName { get; set; } = default!;
     
     public int StatValue { get; set; }
 }
