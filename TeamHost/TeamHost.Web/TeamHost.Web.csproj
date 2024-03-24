@@ -23,4 +23,17 @@
       <Folder Include="Areas\Home\Views\" />
     </ItemGroup>
 
+    <ItemGroup>
+      <AdditionalFiles Include="Areas\Account\Views\Chat\Chats.cshtml" />
+      <AdditionalFiles Include="Areas\Account\Views\Favorite\Favorites.cshtml" />
+      <AdditionalFiles Include="Areas\Account\Views\Friend\Friends.cshtml" />
+      <AdditionalFiles Include="Areas\Account\Views\Profile\MyProfile.cshtml" />
+      <AdditionalFiles Include="Areas\Account\Views\Wallet\Wallet.cshtml" />
+      <AdditionalFiles Include="Areas\Main\Views\Community\Communities.cshtml" />
+      <AdditionalFiles Include="Areas\Main\Views\Game\Game.cshtml" />
+      <AdditionalFiles Include="Areas\Main\Views\Market\Market.cshtml" />
+      <AdditionalFiles Include="Areas\Main\Views\Store\Store.cshtml" />
+      <AdditionalFiles Include="Areas\Main\Views\Stream\Streams.cshtml" />
+    </ItemGroup>
+
 </Project>

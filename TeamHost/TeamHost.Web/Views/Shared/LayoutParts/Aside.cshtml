@@ -1,0 +1,29 @@
+@model dynamic
+
+<aside class="sidebar is-show" id="sidebar">
+            <div class="sidebar-box">
+                <ul class="uk-nav">
+                    <li 
+                        @* class="uk-active" *@
+                        >
+                        <a asp-area="Home" asp-controller="Home" asp-action="Index"><i class="ico_home"></i><span>Home</span></a>
+                    </li>
+                    <li class="uk-nav-header">Account</li>
+                    <li><a asp-area="Account" asp-controller="Profile" asp-action="MyProfile"><i class="ico_profile"></i><span>Profile</span></a></li>
+                    <li><a asp-controller="Favorite" asp-action="Favorites"><i class="ico_favourites"></i><span>Favourites</span>
+                            @* <span class="count">15</span> *@
+                            </a></li>
+                    <li><a asp-area="Account" asp-controller="Chat" asp-action="Chats"><i class="ico_chats"></i><span>Chats</span></a></li>
+                    <li><a asp-area="Account" asp-controller="Friend" asp-action="Friends"><i class="ico_friends"></i><span>Friends</span></a></li>
+                    <li><a asp-area="Account" asp-controller="Wallet" asp-action="MyWallet"><i class="ico_wallet"></i><span>Wallet</span></a></li>
+                    <li class="uk-nav-header">Main</li>
+                    <li><a asp-area="Main" asp-controller="Store" asp-action="GameStore"><i class="ico_store"></i><span>Store</span></a></li>
+                    <li><a asp-area="Main" asp-controller="Market" asp-action="Market"><i class="ico_market"></i><span>Market</span></a></li>
+                    <li><a asp-area="Main" asp-controller="Stream" asp-action="Streams"><i class="ico_streams"></i><span>Streams</span></a></li>
+                    <li><a asp-area="Main" asp-controller="Community" asp-action="Communities"><i class="ico_community"></i><span>Community</span></a></li>
+                    <li class="uk-nav-header">Support</li>
+                    <li><a href="#modal-report" data-uk-toggle><i class="ico_report"></i><span>Report</span></a></li>
+                    <li><a href="#modal-help" data-uk-toggle><i class="ico_help"></i><span>Help</span></a></li>
+                </ul>
+            </div>
+        </aside>
