@@ -36,4 +36,9 @@
       <AdditionalFiles Include="Areas\Main\Views\Stream\Streams.cshtml" />
     </ItemGroup>
 
+    <ItemGroup>
+      <PackageReference Include="LiveStreamingServerNet" Version="0.7.0" />
+      <PackageReference Include="LiveStreamingServerNet.Flv" Version="0.7.0" />
+    </ItemGroup>
+
 </Project>
