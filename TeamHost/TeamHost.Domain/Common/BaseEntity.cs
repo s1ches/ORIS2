@@ -6,7 +6,7 @@ public abstract class BaseEntity : IEntity
 {
     private readonly List<BaseEvent> _domainEvents = [];
     
-    public Guid Id { get; set; }
+    public int Id { get; set; }
     
     public void AddDomainEvent(BaseEvent domainEvent) => _domainEvents.Add(domainEvent);
     public void RemoveDomainEvent(BaseEvent domainEvent) => _domainEvents.Remove(domainEvent);

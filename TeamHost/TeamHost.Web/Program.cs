@@ -2,6 +2,7 @@ using System.Net;
 using LiveStreamingServerNet;
 using LiveStreamingServerNet.Flv.Installer;
 using LiveStreamingServerNet.Networking.Helpers;
+using TeamHost.Persistence.Extensions;
 
 await using var liveStreamingServer = LiveStreamingServerBuilder.Create()
     .ConfigureRtmpServer(options => options.AddFlv())
@@ -16,6 +17,8 @@ builder.Services.AddLogging();
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+
+builder.Services.AddPersistenceLayer(builder.Configuration);
 
 var app = builder.Build();
 

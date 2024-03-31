@@ -17,9 +17,8 @@
     </ItemGroup>
 
     <ItemGroup>
-      <Folder Include="Contexts\" />
-      <Folder Include="Extensions\" />
-      <Folder Include="Repositories\" />
+      <ProjectReference Include="..\TeamHost.Application\TeamHost.Application.csproj" />
+      <ProjectReference Include="..\TeamHost.Domain\TeamHost.Domain.csproj" />
     </ItemGroup>
 
 </Project>

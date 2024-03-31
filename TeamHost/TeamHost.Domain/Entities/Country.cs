@@ -3,37 +3,38 @@ using TeamHost.Domain.Common;
 
 namespace TeamHost.Domain.Entities;
 
-public class Country: BaseEntity
+/// <summary>
+/// Страна
+/// </summary>
+public class Country : BaseEntity
 {
     /// <summary>
-    /// Короткое название
+    /// числовой код страны
+    /// </summary>
+    public string Code { get; set; }
+
+    /// <summary>
+    /// короткое название
     /// </summary>
     public string Name { get; set; }
-    
+
     /// <summary>
-    /// Числовой код страны
+    /// полное название страны
     /// </summary>
-    public int Code { get; set; }
-    
-    /// <summary>
-    /// Полное название страны
-    /// </summary>
-    public string FullName { get; set; }
-    
+    public string Fullname { get; set; }
+
     /// <summary>
     /// 2х-буквенный код
     /// </summary>
-    [MaxLength(2)]
-    public string Alpha2 { get; set; }
-    
+    public string Aplha2 { get; set; }
+
     /// <summary>
     /// 3х-буквенный код
     /// </summary>
-    [MaxLength(3)]
-    public string Alpha3 { get; set; }
-
+    public string Aplha3 { get; set; }
+    
     /// <summary>
-    /// Список разработчиков
+    /// Навигационное свойство для компаний(разработчиков)
     /// </summary>
-    public virtual List<Developer> Developers { get; set; }
+    public List<Company> Companies { get; set; }
 }

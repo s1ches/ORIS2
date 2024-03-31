@@ -3,9 +3,9 @@ using TeamHost.Domain.Common;
 namespace TeamHost.Domain.Entities;
 
 /// <summary>
-/// Категория
+/// Разработчик
 /// </summary>
-public class Category : BaseAuditableEntity
+public class Company: BaseEntity
 {
     /// <summary>
     /// Имя
@@ -13,12 +13,12 @@ public class Category : BaseAuditableEntity
     public string Name { get; set; }
 
     /// <summary>
-    /// Код
-    /// </summary>
-    public string Code { get; set; }
-
-    /// <summary>
     /// Описание
     /// </summary>
     public string Description { get; set; }
+
+    /// <summary>
+    /// Страна
+    /// </summary>
+    public Country Country { get; set; }
 }

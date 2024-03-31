@@ -46,4 +46,9 @@
       </PackageReference>
     </ItemGroup>
 
+    <ItemGroup>
+      <ProjectReference Include="..\TeamHost.Application\TeamHost.Application.csproj" />
+      <ProjectReference Include="..\TeamHost.Persistence\TeamHost.Persistence.csproj" />
+    </ItemGroup>
+
 </Project>
