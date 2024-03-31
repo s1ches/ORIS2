@@ -39,6 +39,11 @@
     <ItemGroup>
       <PackageReference Include="LiveStreamingServerNet" Version="0.7.0" />
       <PackageReference Include="LiveStreamingServerNet.Flv" Version="0.7.0" />
+      <PackageReference Include="MediatR" Version="12.2.0" />
+      <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="8.0.2">
+        <PrivateAssets>all</PrivateAssets>
+        <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+      </PackageReference>
     </ItemGroup>
 
 </Project>
