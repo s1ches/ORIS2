@@ -1,13 +1,15 @@
-@model dynamic
+@model TeamHost.Web.Areas.Account.Models.AuthModels.LoginViewModel
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
 
 @{
-    ViewBag.Title = "Login";
+    ViewBag.Title = "title";
 }
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>TeamHost - Join now and play mighty games!</title>
+    <title>TeamHost - Register</title>
     <meta content="Templines" name="author">
     <meta content="TeamHost" name="description">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -18,49 +20,50 @@
     <link rel="stylesheet" href="~/css/libs.min.css">
     <link rel="stylesheet" href="~/css/main.css">
 </head>
-<!-- Loader-->
-    <div id="page-preloader"><span class="spinner border-t_second_b border-t_prim_a"></span></div>
-    <!-- Loader end-->
+
 <body class="page-login">
 
-    <div class="page-wrapper">
-        <main class="page-first-screen">
-            <div class="uk-grid uk-grid-small uk-child-width-1-2@s uk-flex-middle uk-width-1-1" data-uk-grid>
-                <div class="logo-big">
-                    <img src="~/img/logo-big.png" alt="logo">
-                    <span>TeamHost</span>
-                    <h1>Join now and play mighty games!</h1>
-                </div>
-                <div>
-                    <div class="form-login">
-                        <div class="form-login__social">
-                            <ul class="social">
-                                <li><a href="http://www.google.com"><img src="~/img/google.svg" alt="google"></a></li>
-                                <li><a href="http://www.facebook.com"><img src="~/img/facebook.svg" alt="facebook"></a></li>
-                                <li><a href="http://www.twitter.com"><img src="~/img/twitter.svg" alt="twitter"></a></li>
-                            </ul>
+
+<div class="page-wrapper">
+    <main class="page-first-screen">
+        <div class="uk-grid uk-grid-small uk-child-width-1-2@s uk-flex-middle uk-width-1-1" data-uk-grid>
+            <div class="logo-big">
+                <img src="~/img/logo-big.png" alt="logo">
+                <span>TeamHost</span>
+                <h1>Join now and play mighty games!</h1>
+            </div>
+            <div>
+                <div class="form-login">
+                    <div class="form-login__box">
+                        <div class="uk-heading-line uk-text-center">
+                            <span>or with Email</span>
                         </div>
-                        <div class="form-login__box">
-                            <div class="uk-heading-line uk-text-center"><span>or with Email</span></div>
-                            <form action="#!">
-                                <div class="uk-margin"><input class="uk-input" type="text" placeholder="Username"></div>
-                                <div class="uk-margin"><input class="uk-input" type="password" placeholder="Password"></div>
-                                <div class="uk-margin"><a class="uk-button uk-button-danger uk-width-1-1" href="/Home/Home/Index">Log In</a></div>
-                                <div class="uk-margin uk-text-center"><a href="/Main/Auth/Login">Forgotten password?</a></div>
-                                <hr>
-                                <div class="uk-text-center"><span>Don’t have an account?</span><a class="uk-margin-small-left" href="/Main/Auth/Register">Register</a></div>
-                            </form>
-                        </div>
+                        <form asp-area="Account" asp-controller="Auth" asp-action="Login" method="post">
+                            <div class="uk-margin">
+                                <input class="uk-input" asp-for="Email" type="email" placeholder="Email">
+                            </div>
+                            <div class="uk-margin">
+                                <input class="uk-input" type="password" asp-for="Password" placeholder="Password">
+                            </div>
+                            <button type="submit" value="Log In"/>
+                        </form>
+
+                    </div>
+                    <div class="uk-margin uk-text-center">
+                        <a href="01_login-in.html">Forgotten password?</a>
+                    </div>
+                    <hr>
+                    <div class="uk-text-center">
+                        <span>Don’t have an account?</span>
+
+                        @Html.ActionLink("Register", "Register", "Auth", null, new { @class = "uk-margin-small-left" })
                     </div>
                 </div>
             </div>
-        </main>
-    </div>
+        </div> </main>
+</div>
 
-    <script src="~/js/libs.js"></script>
-    <script src="~/js/main.js"></script>
-    @await RenderSectionAsync("Scripts", required: false)
-    </body>
-    
-    </html>
-    
+<script src="~/js/libs.js"></script>
+<script src="~/js/main.js"></script>
+</body>
+</html>

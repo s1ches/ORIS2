@@ -16,14 +16,6 @@
     </ItemGroup>
 
     <ItemGroup>
-      <Folder Include="Common\Exceptions\" />
-      <Folder Include="Common\Mappings\" />
-      <Folder Include="DTOs\" />
-      <Folder Include="Extensions\" />
-      <Folder Include="Features\Main\Market\" />
-    </ItemGroup>
-
-    <ItemGroup>
       <ProjectReference Include="..\TeamHost.Domain\TeamHost.Domain.csproj" />
       <ProjectReference Include="..\TeamHost.Shared\TeamHost.Shared.csproj" />
     </ItemGroup>

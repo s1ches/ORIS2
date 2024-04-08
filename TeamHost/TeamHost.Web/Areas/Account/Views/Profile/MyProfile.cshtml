@@ -1,4 +1,4 @@
-@model dynamic
+@model TeamHost.Shared.Requests.Account.GetMyProfile.GetMyProfileResponse
 
 @{
     ViewBag.Title = "My Profile";
@@ -16,8 +16,8 @@
                                 <div class="user-info">
                                     <div class="user-info__avatar"><img src="~/img/profile.png" alt="profile"></div>
                                     <div class="user-info__box">
-                                        <div class="user-info__title">John Doe</div>
-                                        <div class="user-info__text">Egypt, Member since May 2022</div>
+                                        <div class="user-info__title">@{ Model.NickName ?? $"#{Model.UserInfoId}"}</div>
+                                        <div class="user-info__text">@Model.Country, Member since @Model.CreatedDate.Month @Model.CreatedDate.Year</div>
                                     </div>
                                 </div><a class="uk-button uk-button-danger" href="#!"><i class="ico_edit"></i><span class="uk-margin-small-left">Edit Profile</span></a>
                             </div>
@@ -26,7 +26,20 @@
                             <div class="widjet__head">
                                 <h3 class="uk-text-lead">Bio</h3>
                             </div>
-                            <div class="widjet__body"><span>Here you can put your biography you need try to make it attractive and professional, just be honest and polite.</span></div>
+                            <div class="widjet__body">
+                                @if (string.IsNullOrWhiteSpace(Model.About))
+                                {
+                                    <span>
+                                        Here you can put your biography you need try to make it attractive and professional, just be honest and polite.
+                                    </span>
+                                }
+                                else
+                                {
+                                    <span>
+                                        @Model.About
+                                    </span>
+                                }
+                            </div>
                         </div>
                         <div class="widjet --activity">
                             <div class="widjet__head">

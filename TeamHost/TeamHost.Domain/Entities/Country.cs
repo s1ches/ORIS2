@@ -32,9 +32,4 @@ public class Country : BaseEntity
     /// 3х-буквенный код
     /// </summary>
     public string Aplha3 { get; set; }
-    
-    /// <summary>
-    /// Навигационное свойство для компаний(разработчиков)
-    /// </summary>
-    public List<Company> Companies { get; set; }
 }

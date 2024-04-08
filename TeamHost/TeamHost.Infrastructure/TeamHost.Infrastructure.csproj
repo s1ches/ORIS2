@@ -7,8 +7,11 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <Folder Include="Extensions\" />
-      <Folder Include="Services\" />
+      <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="8.0.0" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\TeamHost.Application\TeamHost.Application.csproj" />
     </ItemGroup>
 
 </Project>

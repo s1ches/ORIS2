@@ -30,9 +30,7 @@
       <AdditionalFiles Include="Areas\Account\Views\Profile\MyProfile.cshtml" />
       <AdditionalFiles Include="Areas\Account\Views\Wallet\Wallet.cshtml" />
       <AdditionalFiles Include="Areas\Main\Views\Community\Communities.cshtml" />
-      <AdditionalFiles Include="Areas\Main\Views\Game\Game.cshtml" />
       <AdditionalFiles Include="Areas\Main\Views\Market\Market.cshtml" />
-      <AdditionalFiles Include="Areas\Main\Views\Store\Store.cshtml" />
       <AdditionalFiles Include="Areas\Main\Views\Stream\Streams.cshtml" />
     </ItemGroup>
 
@@ -48,6 +46,7 @@
 
     <ItemGroup>
       <ProjectReference Include="..\TeamHost.Application\TeamHost.Application.csproj" />
+      <ProjectReference Include="..\TeamHost.Infrastructure\TeamHost.Infrastructure.csproj" />
       <ProjectReference Include="..\TeamHost.Persistence\TeamHost.Persistence.csproj" />
     </ItemGroup>
 

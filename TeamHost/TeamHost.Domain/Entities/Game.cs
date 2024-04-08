@@ -11,7 +11,7 @@ public class Game : BaseAuditableEntity
     public string Name { get; set; }
 
     /// <summary>
-    /// Цена (в вонах)
+    /// Цена
     /// </summary>
     public decimal Price { get; set; }
 
@@ -44,7 +44,7 @@ public class Game : BaseAuditableEntity
     /// <summary>
     /// Категория
     /// </summary>
-    public List<Category> Category { get; set; }
+    public List<Category> Categories { get; set; }
 
     /// <summary>
     /// Дата релиза
@@ -60,4 +60,9 @@ public class Game : BaseAuditableEntity
     /// Компания-разработчик
     /// </summary>
     public Company CompanyDeveloper { get; set; }
+    
+    /// <summary>
+    /// Количество оценок игры
+    /// </summary>
+    public int RatingsNumber { get; set; }
 }

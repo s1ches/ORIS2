@@ -1,3 +1,5 @@
+@using Microsoft.AspNetCore.Mvc.TagHelpers
+
 @model dynamic
 
 <header class="page-header">
@@ -16,9 +18,25 @@
             <div class="page-header__action"><a class="action-btn" href="#!">
                 <i class="ico_message"></i>
                 @* <span></span> *@
-            </a><a class="action-btn" href="#!"><i class="ico_notification"></i>
-                @* <span></span> *@
-            </a><a class="profile" asp-area="Account" asp-controller="Profile" asp-action="MyProfile"><img src="~/img/profile.png" alt="profile"></a></div>
+                </a><a class="action-btn" href="#!"><i class="ico_notification"></i>
+                    @* <span></span> *@
+                </a >
+                @{
+                    if (User.Identity.IsAuthenticated)
+                    {
+                        <a class="profile" asp-area="Account" asp-controller="Profile" asp-action="MyProfile"><img src="~/img/profile.png" alt="profile">
+                        </a>
+                        <span uk-icon="icon: triangle-down" class="uk-icon"><svg width="20" height="20" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><polygon points="5 7 15 7 10 12"></polygon></svg></span>
+                        <div uk-dropdown="mode: click" class="uk-dropdown uk-dropdown-bottom-right" style="left: -54.9844px; top: 42px;">
+                            <ul class="uk-nav uk-dropdown-nav">
+                                <li><a asp-controller="Auth" asp-area="Account" asp-action="Logout">Log Out</a></li>
+                            </ul>
+                        </div>
+                    }   else {
+                        <a class="profile" asp-area="Account" asp-controller="Auth" asp-action="Login">Login</a>
+                    }   
+                }
+            </div>
         </div>
     </div>
 </header>

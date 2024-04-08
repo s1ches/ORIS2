@@ -2,6 +2,11 @@ using System.Net;
 using LiveStreamingServerNet;
 using LiveStreamingServerNet.Flv.Installer;
 using LiveStreamingServerNet.Networking.Helpers;
+using Microsoft.AspNetCore.Identity;
+using TeamHost.Application.Extensions;
+using TeamHost.Application.Interfaces;
+using TeamHost.Infrastructure.Extensions;
+using TeamHost.Persistence.Contexts;
 using TeamHost.Persistence.Extensions;
 
 await using var liveStreamingServer = LiveStreamingServerBuilder.Create()
@@ -18,7 +23,20 @@ builder.Services.AddLogging();
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 
-builder.Services.AddPersistenceLayer(builder.Configuration);
+builder.Services.AddApplicationLayer();
+builder.Services.AddInfrastructureLayer();
+builder.Services.AddPersistenceLayer(builder.Configuration)
+    .AddIdentity<IdentityUser, IdentityRole>(options =>
+    {
+        options.User.RequireUniqueEmail = true;
+        options.Password.RequireDigit = false;
+        options.Password.RequiredLength = 8;
+        options.Password.RequireLowercase = false;
+        options.Password.RequireUppercase = false;
+        options.Password.RequireNonAlphanumeric = false;
+    })
+    .AddEntityFrameworkStores<AppDbContext>();
+builder.Services.AddDbContext<IAppDbContext, AppDbContext>();
 
 var app = builder.Build();
 
@@ -40,6 +58,7 @@ app.UseStaticFiles();
 
 app.UseRouting();
 
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllerRoute(

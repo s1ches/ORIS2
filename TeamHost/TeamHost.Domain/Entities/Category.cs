@@ -21,4 +21,6 @@ public class Category : BaseAuditableEntity
     /// Описание
     /// </summary>
     public string Description { get; set; }
+    
+    public List<Game> Games { get; set; }
 }
