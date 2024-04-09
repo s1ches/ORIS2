@@ -2,6 +2,8 @@
 
 public class GetMyProfileResponse
 {
+    public string Email { get; set; }
+    
     public int UserInfoId { get; set; }
     
     public string? NickName { get; set; }
@@ -19,4 +21,6 @@ public class GetMyProfileResponse
     public string? About { get; set; }
 
     public string? Country { get; set; }
+    
+    public List<string> Countries { get; set; }
 }

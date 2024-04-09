@@ -24,6 +24,7 @@ public class GetMyProfileQueryHandler(IAppDbContext dbContext)
 
         return new GetMyProfileResponse
         {
+            Email = result.Email,
             UserInfoId = result.Id,
             NickName = result.IdentityUser.UserName,
             FirstName = result.FirstName,
@@ -32,7 +33,9 @@ public class GetMyProfileQueryHandler(IAppDbContext dbContext)
             BirthDay = result.BirthDay,
             CreatedDate = result.CreatedDate,
             About = result.About,
-            Country = result.Country?.Name
+            Country = result.Country?.Name,
+            Countries = await dbContext.Countries.AsNoTracking()
+                .Select(x => x.Name).ToListAsync(cancellationToken)
         };
     }
 }

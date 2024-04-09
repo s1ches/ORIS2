@@ -1,22 +1,49 @@
-﻿namespace TeamHost.Shared.Requests.Account.PatchEditUserInfo;
+﻿using System.ComponentModel.DataAnnotations;
 
-public class PatchEditUserInfoRequest(PatchEditUserInfoRequest request)
+namespace TeamHost.Shared.Requests.Account.PatchEditUserInfo;
+
+public class PatchEditUserInfoRequest
 {
-    public string? Email { get; set; } = request.Email;
+    public PatchEditUserInfoRequest()
+    {
+    }
+
+    public PatchEditUserInfoRequest(PatchEditUserInfoRequest request)
+    {
+        Email = request.Email;
+        UserInfoId = request.UserInfoId;
+        NickName = request.NickName;
+        FirstName = request.FirstName;
+        LastName = request.LastName;
+        Patronymic = request.Patronymic;
+        BirthDay = request.BirthDay;
+        About = request.About;
+        Country = request.Country;
+    }
+
+    [DataType(DataType.EmailAddress)]
+    public string? Email { get; set; }
     
-    public int UserInfoId { get; set; } = request.UserInfoId;
+    public int UserInfoId { get; set; }
 
-    public string? NickName { get; set; } = request.NickName;
+    [DataType(DataType.Text)]
+    public string? NickName { get; set; }
 
-    public string? FirstName { get; set; } = request.FirstName;
+    [DataType(DataType.Text)]
+    public string? FirstName { get; set; }
 
-    public string? LastName { get; set; } = request.LastName;
+    [DataType(DataType.Text)]
+    public string? LastName { get; set; }
 
-    public string? Patronymic { get; set; } = request.Patronymic;
+    [DataType(DataType.Text)]
+    public string? Patronymic { get; set; }
 
-    public DateTime? BirthDay { get; set; } = request.BirthDay;
+    [DataType(DataType.DateTime)]
+    public DateTime? BirthDay { get; set; }
 
-    public string? About { get; set; } = request.About;
+    [DataType(DataType.Text)]
+    public string? About { get; set; }
 
-    public string? Country { get; set; } = request.Country;
+    [DataType(DataType.Text)]
+    public string? Country { get; set; }
 }

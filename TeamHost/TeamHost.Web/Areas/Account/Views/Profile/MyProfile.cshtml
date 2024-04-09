@@ -1,125 +1,220 @@
 @model TeamHost.Shared.Requests.Account.GetMyProfile.GetMyProfileResponse
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
 
 @{
     ViewBag.Title = "My Profile";
     Layout = "_Layout";
 }
 
- <main class="page-main">
-                <div class="uk-grid" data-uk-grid>
-                    <div class="uk-width-2-3@l">
-                        <div class="widjet --profile">
-                            <div class="widjet__head">
-                                <h3 class="uk-text-lead">Profile</h3>
-                            </div>
-                            <div class="widjet__body">
-                                <div class="user-info">
-                                    <div class="user-info__avatar"><img src="~/img/profile.png" alt="profile"></div>
-                                    <div class="user-info__box">
-                                        <div class="user-info__title">@{ Model.NickName ?? $"#{Model.UserInfoId}"}</div>
-                                        <div class="user-info__text">@Model.Country, Member since @Model.CreatedDate.Month @Model.CreatedDate.Year</div>
-                                    </div>
-                                </div><a class="uk-button uk-button-danger" href="#!"><i class="ico_edit"></i><span class="uk-margin-small-left">Edit Profile</span></a>
-                            </div>
+<main class="page-main">
+    <div class="uk-grid" data-uk-grid>
+        <div class="uk-width-2-3@l">
+            <div class="widjet --profile">
+                <div class="widjet__head">
+                    <h3 class="uk-text-lead">Profile</h3>
+                </div>
+                <div class="widjet__body">
+                    <div class="user-info">
+                        <div class="user-info__avatar"><img src="~/img/profile.png" alt="profile"></div>
+                        <div class="user-info__box">
+                            <div class="user-info__title">@Model.NickName</div>
+                            <div class="user-info__text">@Model.Country, Member since @Model.CreatedDate.ToShortDateString()</div>
                         </div>
-                        <div class="widjet --bio">
-                            <div class="widjet__head">
-                                <h3 class="uk-text-lead">Bio</h3>
-                            </div>
-                            <div class="widjet__body">
-                                @if (string.IsNullOrWhiteSpace(Model.About))
-                                {
-                                    <span>
-                                        Here you can put your biography you need try to make it attractive and professional, just be honest and polite.
-                                    </span>
-                                }
-                                else
-                                {
-                                    <span>
-                                        @Model.About
-                                    </span>
-                                }
-                            </div>
-                        </div>
-                        <div class="widjet --activity">
-                            <div class="widjet__head">
-                                <h3 class="uk-text-lead">Recent Activity</h3><a href="#!">View All</a>
-                            </div>
-                            <div class="widjet__body">
-                                <div class="widjet-game">
-                                    <div class="widjet-game__media"><a href="/Main/Game/GameProfile"><img src="~/img/activity-1.jpg" alt="image"></a></div>
-                                    <div class="widjet-game__info"><a class="widjet-game__title" href="/Main/Game/GameProfile"> Grand Theft Auto V</a>
-                                        <div class="widjet-game__record">3 hours on record</div>
-                                        <div class="widjet-game__last-played">last played on 18 Feb, 2021</div>
-                                    </div>
-                                </div>
-                                <div class="widjet-game-info">
-                                    <div class="widjet-game-info__title">Achievement Progress</div>
-                                    <div class="widjet-game-info__progress"><span>50 of 150</span>
-                                        <div class="progress-box">
-                                            <div class="progress-line" style="width: 80%"></div>
-                                        </div>
-                                    </div>
-                                    <div class="widjet-game-info__acheivement">
-                                        <ul>
-                                            <li><img src="~/img/acheivement-1.png" alt="acheivement"></li>
-                                            <li><img src="~/img/acheivement-2.png" alt="acheivement"></li>
-                                            <li><img src="~/img/acheivement-3.png" alt="acheivement"></li>
-                                            <li><img src="~/img/acheivement-4.png" alt="acheivement"></li>
-                                            <li><img src="~/img/acheivement-5.png" alt="acheivement"></li>
-                                            <li><span>+10</span></li>
-                                        </ul>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="widjet__body">
-                                <div class="widjet-game">
-                                    <div class="widjet-game__media"><a href="/Main/Game/GameProfile"><img src="~/img/activity-2.jpg" alt="image"></a></div>
-                                    <div class="widjet-game__info"><a class="widjet-game__title" href="/Main/Game/GameProfile"> Counter-Strike: Global Offensive</a>
-                                        <div class="widjet-game__record">0.2 hours on record</div>
-                                        <div class="widjet-game__last-played">last played on 25 Apr, 2021</div>
-                                    </div>
-                                </div>
-                            </div>
+                    </div><div class="trigger"><div class="uk-button uk-button-danger"><i class="ico_edit"></i><span class="uk-margin-small-left">Edit Profile</span></div></div>
+                </div>
+            </div>
+            <div class="widjet --bio">
+                <div class="widjet__head">
+                    <h3 class="uk-text-lead">Bio</h3>
+                </div>
+                <div class="widjet__body">
+                    @if (string.IsNullOrWhiteSpace(Model.About))
+                    {
+                        <span>
+                            Here you can put your biography you need try to make it attractive and professional, just be honest and polite.
+                        </span>
+                    }
+                    else
+                    {
+                        <span>
+                            @Model.About
+                        </span>
+                    }
+                </div>
+            </div>
+            <div class="widjet --activity">
+                <div class="widjet__head">
+                    <h3 class="uk-text-lead">Recent Activity</h3><a href="#!">View All</a>
+                </div>
+                <div class="widjet__body">
+                    <div class="widjet-game">
+                        <div class="widjet-game__media"><a href="/Main/Game/GameProfile"><img src="~/img/activity-1.jpg" alt="image"></a></div>
+                        <div class="widjet-game__info"><a class="widjet-game__title" href="/Main/Game/GameProfile"> Grand Theft Auto V</a>
+                            <div class="widjet-game__record">3 hours on record</div>
+                            <div class="widjet-game__last-played">last played on 18 Feb, 2021</div>
                         </div>
                     </div>
-                    <div class="uk-width-1-3@l">
-                        <div class="widjet --upload">
-                            <div class="widjet__head">
-                                <h3 class="uk-text-lead">Upload Item</h3>
-                            </div>
-                            <div class="widjet__body"><select class="js-select uk-flex-1">
-                                    <option value="">Select a Category</option>
-                                    <option value="Category 1">Category 1</option>
-                                    <option value="Category 2">Category 2</option>
-                                    <option value="Category 3">Category 3</option>
-                                </select><button class="uk-button uk-button-secondary" type="button">Next</button></div>
-                        </div>
-                        <div class="widjet --badges">
-                            <div class="widjet__head">
-                                <h3 class="uk-text-lead">Badges</h3><a href="#!">View All</a>
-                            </div>
-                            <div class="widjet__body">
-                                <ul class="badges-list">
-                                    <li><img src="~/img/badge-1.png" alt="badge"></li>
-                                    <li><img src="~/img/badge-2.png" alt="badge"></li>
-                                    <li><img src="~/img/badge-3.png" alt="badge"></li>
-                                </ul>
+                    <div class="widjet-game-info">
+                        <div class="widjet-game-info__title">Achievement Progress</div>
+                        <div class="widjet-game-info__progress"><span>50 of 150</span>
+                            <div class="progress-box">
+                                <div class="progress-line" style="width: 80%"></div>
                             </div>
                         </div>
-                        <div class="widjet --games">
-                            <div class="widjet__head">
-                                <h3 class="uk-text-lead">Games</h3><a href="#!">View All</a>
-                            </div>
-                            <div class="widjet__body">
-                                <ul class="games-list">
-                                    <li><img src="~/img/game-1.png" alt="game"></li>
-                                    <li><img src="~/img/game-2.png" alt="game"></li>
-                                    <li><img src="~/img/game-3.png" alt="game"></li>
-                                    <li><img src="~/img/game-4.png" alt="game"></li>
-                                </ul>
-                            </div>
+                        <div class="widjet-game-info__acheivement">
+                            <ul>
+                                <li><img src="~/img/acheivement-1.png" alt="acheivement"></li>
+                                <li><img src="~/img/acheivement-2.png" alt="acheivement"></li>
+                                <li><img src="~/img/acheivement-3.png" alt="acheivement"></li>
+                                <li><img src="~/img/acheivement-4.png" alt="acheivement"></li>
+                                <li><img src="~/img/acheivement-5.png" alt="acheivement"></li>
+                                <li><span>+10</span></li>
+                            </ul>
                         </div>
                     </div>
                 </div>
-            </main>
+                <div class="widjet__body">
+                    <div class="widjet-game">
+                        <div class="widjet-game__media"><a href="/Main/Game/GameProfile"><img src="~/img/activity-2.jpg" alt="image"></a></div>
+                        <div class="widjet-game__info"><a class="widjet-game__title" href="/Main/Game/GameProfile"> Counter-Strike: Global Offensive</a>
+                            <div class="widjet-game__record">0.2 hours on record</div>
+                            <div class="widjet-game__last-played">last played on 25 Apr, 2021</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="uk-width-1-3@l">
+            <div class="widjet --upload">
+                <div class="widjet__head">
+                    <h3 class="uk-text-lead">Upload Item</h3>
+                </div>
+                <div class="widjet__body"><select class="js-select uk-flex-1">
+                    <option value="">Select a Category</option>
+                    <option value="Category 1">Category 1</option>
+                    <option value="Category 2">Category 2</option>
+                    <option value="Category 3">Category 3</option>
+                </select><button class="uk-button uk-button-secondary" type="button">Next</button></div>
+            </div>
+            <div class="widjet --badges">
+                <div class="widjet__head">
+                    <h3 class="uk-text-lead">Badges</h3><a href="#!">View All</a>
+                </div>
+                <div class="widjet__body">
+                    <ul class="badges-list">
+                        <li><img src="~/img/badge-1.png" alt="badge"></li>
+                        <li><img src="~/img/badge-2.png" alt="badge"></li>
+                        <li><img src="~/img/badge-3.png" alt="badge"></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="widjet --games">
+                <div class="widjet__head">
+                    <h3 class="uk-text-lead">Games</h3><a href="#!">View All</a>
+                </div>
+                <div class="widjet__body">
+                    <ul class="games-list">
+                        <li><img src="~/img/game-1.png" alt="game"></li>
+                        <li><img src="~/img/game-2.png" alt="game"></li>
+                        <li><img src="~/img/game-3.png" alt="game"></li>
+                        <li><img src="~/img/game-4.png" alt="game"></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+<div class="modalBackground">
+                        <div class="modalActive">
+                            <div class="modalClose">
+                                <img src="~/img/modalCross.svg"/>
+                            </div>
+                            <div class="modalWindow">
+                                <form method="post" asp-area="Account" asp-controller="Profile" asp-action="EditProfile">
+                                    <input type="hidden" asp-for="UserInfoId" value="@Model.UserInfoId"/>
+                                    <label>Email</label>
+                                    <span asp-validation-for="Email"></span>
+                                    <input type="email" asp-for="Email" placeholder="example@gmail.com"/>
+                                    <label>Nick name</label>
+                                    <span asp-validation-for="NickName"></span>
+                                    <input type="text" asp-for="NickName" placeholder="Nick name"/>
+                                    <label>First name</label>
+                                    <span asp-validation-for="FirstName"></span>
+                                    <input type="text" asp-for="FirstName" placeholder="First name"/>
+                                    <label>Last name</label>
+                                    <span asp-validation-for="LastName"></span>
+                                    <input type="text" asp-for="LastName" placeholder="Last name"/>
+                                    <span asp-validation-for="Patronymic"></span>
+                                    <label>Patronymic</label>
+                                    <input type="text" asp-for="Patronymic" placeholder="Patronymic"/>
+                                    <label>Birthday</label>
+                                    <input type="date" asp-for="BirthDay" value="25.01.2004"/>
+                                    <label>Bio</label>
+                                    <input type="text" asp-for="About" placeholder="Bio"/>
+                                    <label>Country</label>
+                                    <select asp-for="Country">
+                                        <option value="-">-</option>
+                                        @foreach (var country in Model.Countries)
+                                        {
+                                            <option value="@country">@country</option>
+                                        }
+                                    </select>
+                                    <button type="submit">Edit Profile</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+<script>
+    const modalTrigger = document.querySelector(".trigger");
+    // получаем ширину отображенного содержимого и толщину ползунка прокрутки
+    const windowInnerWidth = document.documentElement.clientWidth;
+    const scrollbarWidth = parseInt(window.innerWidth) - parseInt(document.documentElement.clientWidth);
+    
+    // привязываем необходимые элементы
+    const bodyElementHTML = document.getElementsByTagName("body")[0];
+    const modalBackground = document.querySelector(".modalBackground");
+    const modalClose = document.querySelector(".modalClose");
+    const modalActive = document.querySelector(".modalActive");
+    console.log(modalActive);
+
+    
+    // функция для корректировки положения body при появлении ползунка прокрутки
+    function bodyMargin() {
+        bodyElementHTML.style.marginRight = "-" + scrollbarWidth + "px";
+    }
+    
+    // при длинной странице - корректируем сразу
+    bodyMargin();
+    
+    // событие нажатия на триггер открытия модального окна
+    modalTrigger.addEventListener("click", function () {
+        // делаем модальное окно видимым
+        modalBackground.style.display = "block";
+    
+        // если размер экрана больше 1366 пикселей (т.е. на мониторе может появиться ползунок)
+        if (windowInnerWidth >= 1366) {
+            bodyMargin();
+        }
+    
+        // позиционируем наше окно по середине, где 175 - половина ширины модального окна
+        modalActive.style.left = "calc(50% - " + (175 - scrollbarWidth / 2) + "px)";
+    });
+    
+    // нажатие на крестик закрытия модального окна
+    modalClose.addEventListener("click", function () {
+        modalBackground.style.display = "none";
+        if (windowInnerWidth >= 1366) {
+            bodyMargin();
+        }
+    });
+    
+    // закрытие модального окна на зону вне окна, т.е. на фон
+    modalBackground.addEventListener("click", function (event) {
+        if (event.target === modalBackground) {
+            modalBackground.style.display = "none";
+            if (windowInnerWidth >= 1366) {
+                bodyMargin();
+            }
+        }
+    });
+</script>
