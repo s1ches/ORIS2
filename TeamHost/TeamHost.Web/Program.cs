@@ -3,6 +3,7 @@ using LiveStreamingServerNet;
 using LiveStreamingServerNet.Flv.Installer;
 using LiveStreamingServerNet.Networking.Helpers;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using TeamHost.Application.Extensions;
 using TeamHost.Application.Interfaces;
 using TeamHost.Infrastructure.Extensions;
@@ -36,7 +37,11 @@ builder.Services.AddPersistenceLayer(builder.Configuration)
         options.Password.RequireNonAlphanumeric = false;
     })
     .AddEntityFrameworkStores<AppDbContext>();
-builder.Services.AddDbContext<IAppDbContext, AppDbContext>();
+
+builder.Services.AddHttpContextAccessor();
+
+builder.Services.AddDbContext<IAppDbContext, AppDbContext>(opt =>
+    opt.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
 
 var app = builder.Build();
 

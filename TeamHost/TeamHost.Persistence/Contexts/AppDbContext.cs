@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using TeamHost.Application.Interfaces;
 using TeamHost.Domain.Entities;
+using TeamHost.Domain.Entities.Chats;
 
 namespace TeamHost.Persistence.Contexts;
 
@@ -20,6 +21,10 @@ public class AppDbContext : IdentityDbContext, IAppDbContext
     public DbSet<Game> Games { get; set; }
     
     public DbSet<UserInfo> UserInfos { get; set; }
+    
+    public DbSet<Message> Messages { get; set; }
+    
+    public DbSet<Chat> Chats { get; set; }
 
     public AppDbContext()
     {

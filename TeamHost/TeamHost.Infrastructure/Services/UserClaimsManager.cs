@@ -1,10 +1,11 @@
 ﻿using System.Security.Claims;
+using Microsoft.AspNetCore.Http;
 using TeamHost.Application.Interfaces;
 
 namespace TeamHost.Infrastructure.Services;
 
-public class UserClaimsManager : IUserClaimsManager
+public class UserClaimsManager(IHttpContextAccessor contextAccessor) : IUserClaimsManager
 {
-    public string? GetUserId(ClaimsPrincipal user)
-        => user.Claims.FirstOrDefault(x => ClaimTypes.NameIdentifier == x.Type)?.Value;
+    public string? UserId => contextAccessor.HttpContext?.User
+        .Claims.FirstOrDefault(x => ClaimTypes.NameIdentifier == x.Type)?.Value;
 }

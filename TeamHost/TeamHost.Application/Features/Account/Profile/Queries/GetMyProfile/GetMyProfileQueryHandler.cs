@@ -6,21 +6,26 @@ using TeamHost.Shared.Requests.Account.GetMyProfile;
 
 namespace TeamHost.Application.Features.Account.Profile.Queries.GetMyProfile;
 
-public class GetMyProfileQueryHandler(IAppDbContext dbContext) 
+public class GetMyProfileQueryHandler(IAppDbContext dbContext, IUserClaimsManager claimsManager) 
     : IRequestHandler<GetMyProfileQuery, GetMyProfileResponse>
 {
     public async Task<GetMyProfileResponse> Handle(GetMyProfileQuery request, CancellationToken cancellationToken)
     {
         var userInfos = dbContext.UserInfos.AsNoTracking();
 
+        var id = claimsManager.UserId;
+
+        if (id is null)
+            throw new NotFoundException($"User id was not found");
+        
         var result = await userInfos
             .Include(x => x.IdentityUser)
             .Include(x => x.Country)
-            .FirstOrDefaultAsync(x => x.IdentityUserId == request.UserId,
+            .FirstOrDefaultAsync(x => x.IdentityUserId == claimsManager.UserId,
                 cancellationToken: cancellationToken);
 
         if (result is null)
-            throw new NotFoundException($"User with id: {request.UserId} was not found");
+            throw new NotFoundException($"User with id: {claimsManager.UserId} was not found");
 
         return new GetMyProfileResponse
         {

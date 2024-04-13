@@ -16,9 +16,7 @@ public class ProfileController(IMediator mediator) : Controller
     public async Task<IActionResult> MyProfile([FromServices] IUserClaimsManager claimsManager,
         CancellationToken cancellationToken)
     {
-        var id = claimsManager.GetUserId(User);
-
-        var query = new GetMyProfileQuery(id!);
+        var query = new GetMyProfileQuery();
         var response = await mediator.Send(query, cancellationToken);
         
         return View(response);
@@ -30,6 +28,7 @@ public class ProfileController(IMediator mediator) : Controller
     {
         var query = new PatchEditUserInfoCommand(request);
         await mediator.Send(query, cancellationToken);
+        
         return RedirectToAction("MyProfile");
     }
 }

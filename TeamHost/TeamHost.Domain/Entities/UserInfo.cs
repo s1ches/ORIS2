@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using TeamHost.Domain.Common;
+using TeamHost.Domain.Entities.Chats;
 
 namespace TeamHost.Domain.Entities;
 
@@ -24,4 +25,6 @@ public class UserInfo : BaseEntity
     public string IdentityUserId { get; set; }
     
     public IdentityUser IdentityUser { get; set; } 
+    
+    public List<Chat> Chats { get; set; }
 }

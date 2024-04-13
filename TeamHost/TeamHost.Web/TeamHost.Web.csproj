@@ -20,6 +20,7 @@
     </ItemGroup>
 
     <ItemGroup>
+      <Folder Include="Areas\Account\Controllers\Hubs\" />
       <Folder Include="Areas\Home\Views\" />
     </ItemGroup>
 

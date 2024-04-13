@@ -1,8 +1,6 @@
-﻿using System.Security.Claims;
-
-namespace TeamHost.Application.Interfaces;
+﻿namespace TeamHost.Application.Interfaces;
 
 public interface IUserClaimsManager
 {
-    string? GetUserId(ClaimsPrincipal user);
+    string? UserId { get; }
 }
