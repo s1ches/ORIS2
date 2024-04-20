@@ -10,6 +10,8 @@ public class Message : BaseAuditableEntity
     
     public UserInfo SenderUserInfo { get; set; }
     
+    public bool HasRead { get; set; }
+    
     public int ChatId { get; set; }
     
     public Chat Chat { get; set; }

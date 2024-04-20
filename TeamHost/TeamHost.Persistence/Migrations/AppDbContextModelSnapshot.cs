@@ -335,8 +335,10 @@ namespace TeamHost.Persistence.Migrations
                     b.Property<DateTime?>("CreatedDate")
                         .HasColumnType("timestamp with time zone");
 
+                    b.Property<bool>("HasRead")
+                        .HasColumnType("boolean");
+
                     b.Property<string>("MessageContent")
-                        .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<string>("SenderUserInfoId")

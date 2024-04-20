@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.Identity;
-using TeamHost.Domain.Common;
+﻿using TeamHost.Domain.Common;
 
 namespace TeamHost.Domain.Entities.Chats;
 

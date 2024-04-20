@@ -22,7 +22,7 @@
                     @* <span></span> *@
                 </a >
                 @{
-                    if (User.Identity.IsAuthenticated)
+                    if (User.Identity!.IsAuthenticated)
                     {
                         <a class="profile" asp-area="Account" asp-controller="Profile" asp-action="MyProfile"><img src="~/img/profile.png" alt="profile">
                         </a>

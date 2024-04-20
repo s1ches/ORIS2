@@ -11,4 +11,6 @@ public class GetChatsResponseItem
     public string? LastReceivedMessageContent { get; set; } = string.Empty;
     
     public DateTime? LastReceivedMessageTime { get; set; }
+    
+    public bool HasReadLastReceivedMessage { get; set; }
 }

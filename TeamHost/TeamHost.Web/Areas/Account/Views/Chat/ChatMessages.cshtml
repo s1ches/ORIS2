@@ -1,0 +1,58 @@
+﻿@using TeamHost.Application.Interfaces
+@model TeamHost.Shared.Requests.Account.Chat.GetChatMessages.GetChatMessagesResponse
+
+@inject IUserClaimsManager claimsManager
+
+@{
+    var image = Model.ChatImage ?? "img/profile.png";
+}
+
+
+<div class="chat-messages-box">
+    <div class="chat-messages-head">
+        <div class="user-item">
+            <div class="user-item__avatar"><img src="~/@image" alt="user"></div>
+            <div class="user-item__desc">
+                <div class="user-item__name">@Model.ChatTitle</div>
+            </div>
+        </div>
+        <div><a class="ico_call" href="#!"></a><a class="ico_info-circle" href="#!"></a></div>
+    </div>
+    <div class="chat-messages-body">
+        <input id="userId" type="hidden" value="@claimsManager.UserId"/>
+        @foreach (var item in Model.Messages ?? new())
+        {
+            @if (item.MessageSenderUserId == claimsManager.UserId)
+            {
+                <div class="messages-item --friend-message" id="your-message">
+                    <div class="sender-name">@item.MessageSenderName</div>
+                    <div class="messages-item__text">@item.MessageContent</div>
+                </div>
+            }
+            else
+            {
+                <div class="messages-item --your-message">
+                    <div class="messages-item__text">@item.MessageContent</div>
+                    <div class="sender-name">@item.MessageSenderName</div>
+                </div>
+            }
+        }
+    </div>
+    <div class="chat-messages-footer">
+        <form id="form-chat">
+            <div class="chat-messages-form">
+                <input type="hidden" id="chatIdInput" name="chatId" value="@Model.ChatId">
+                <div class="chat-messages-form-btns">
+                    <button class="ico_emoji-happy"></button>
+                    <button class="ico_gallery"></button>
+                </div>
+                <div class="chat-messages-form-controls">
+                    <input class="chat-messages-input" type="text" placeholder="Type a message" required>
+                </div>
+                <div class="chat-messages-form-btn">
+                    <button class="ico_microphone" type="button"></button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
